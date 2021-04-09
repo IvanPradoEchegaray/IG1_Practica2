@@ -1,0 +1,23 @@
+﻿  Camera.cpp
+  Entity.cpp
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C2143: error de sintaxis: falta ';' delante de '*'
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,21): error C2238: símbolos (token) inesperados delante de ';'
+  IG1App.cpp
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C2143: error de sintaxis: falta ';' delante de '*'
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,21): error C2238: símbolos (token) inesperados delante de ';'
+  main.cpp
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C2143: error de sintaxis: falta ';' delante de '*'
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,21): error C2238: símbolos (token) inesperados delante de ';'
+  Mesh.cpp
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(117,23): warning C4018: '<': no coinciden signed/unsigned
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(141,23): warning C4018: '<': no coinciden signed/unsigned
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(194,23): warning C4018: '<': no coinciden signed/unsigned
+  Scene.cpp
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C2143: error de sintaxis: falta ';' delante de '*'
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,7): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.h(128,21): error C2238: símbolos (token) inesperados delante de ';'
+  Viewport.cpp
+  Generando código...
