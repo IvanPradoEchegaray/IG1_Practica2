@@ -14,7 +14,9 @@ void Abs_Entity::upload(dmat4 const& modelViewMat) const
 	glLoadMatrixd(value_ptr(modelViewMat));  // transfers modelView matrix to the GPU
 }
 //-------------------------------------------------------------------------
-//-------------------------------------------------------------------------
+//Practica 1
+//------------------------------------------------------------------------
+#pragma region Practica1
 
 EjesRGB::EjesRGB(GLdouble l): Abs_Entity()
 {
@@ -396,3 +398,71 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		}
 	}
 }
+#pragma endregion
+//-------------------------------------------------------------------------
+//Practica 2
+//------------------------------------------------------------------------
+#pragma region Practica2
+//---Sphere
+
+void Sphere::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	//Color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(0, 0.3, 0.7);
+	//Dibujado
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluSphere(q, r, slices_, stacks_);
+	//Reset
+	glDisable(GL_COLOR_MATERIAL);
+	glColor3f(1.0,1.0,1.0);
+}
+
+//---Partial Cylinder
+
+void Cylinder::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	//Color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(0, 65, 106);
+	//Dibujado
+	gluCylinder(q, baseR, topR, h, slices_, stacks_);
+	gluQuadricDrawStyle(q, GLU_FILL);
+	//Reset
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+//--- Disk
+void Disk::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	//Color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(0, 65, 106);
+	//Dibujado
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluDisk(q, inR, outR, slices_, stacks_);
+	//Reset
+}
+
+//---Partial Disk
+void PartialDisk::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	//Color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(0, 65, 106);
+	//Dibujado
+	gluQuadricDrawStyle(q, GLU_FILL);
+	gluPartialDisk(q, inR, outR, slices_, stacks_, startAng, sweepAng);
+	//Reset
+	glColor3f(1.0, 1.0, 1.0);
+}
+
+#pragma endregion

@@ -95,7 +95,7 @@ public:
 };
 
 //-------------------------------------------------------------------------
-//Practica 2
+//Practica 1
 //------------------------------------------------------------------------
 class Star3D : public Abs_Entity
 {
@@ -173,6 +173,66 @@ public:
 	virtual void update();
 };
 
+//-------------------------------------------------------------------------
+//Practica 2
+//------------------------------------------------------------------------
+class QuadricEntity : public Abs_Entity
+{
+public:
+	QuadricEntity(){ q = gluNewQuadric(); };
+	virtual ~QuadricEntity() { gluDeleteQuadric(q); };
+	virtual void render(glm::dmat4 const& modelViewMat) const = 0;  // abstract method
+	virtual void update() {};
+protected:
+	GLUquadricObj* q;
+	GLint slices_ = 50, stacks_ = 50;
+};
+//-------------------------------------------------------------------------
+class Sphere :public QuadricEntity
+{
+public:
+	explicit Sphere(GLdouble radius) : r(radius) {};
+	~Sphere() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	virtual void update() {};
+protected:
+	GLdouble r;
+};
+//-------------------------------------------------------------------------
+class Cylinder : public QuadricEntity
+{
+public:
+	explicit Cylinder(GLdouble baseRadius, GLdouble topRadius, GLdouble heigth) :
+		baseR(baseRadius), topR(topRadius), h(heigth) {};
+	~Cylinder() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	virtual void update() {};
+protected:
+	GLdouble baseR, topR, h;
+};
+//-------------------------------------------------------------------------
+class Disk : public QuadricEntity
+{
+public:
+	explicit Disk(GLdouble innerRadius, GLdouble outerRadius) : inR(innerRadius), outR(outerRadius) {};
+	~Disk() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	virtual void update() {};
+protected:
+	GLdouble inR, outR;
+};
+//-------------------------------------------------------------------------
+class PartialDisk : public QuadricEntity
+{
+public:
+	explicit PartialDisk(GLdouble innerRadius, GLdouble outerRadius, GLdouble startAngle, GLdouble sweepAngle) :
+		inR(innerRadius), outR(outerRadius), startAng(startAngle), sweepAng(sweepAngle) {};
+	~PartialDisk() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	virtual void update() {};
+protected:
+	GLdouble inR, outR, startAng, sweepAng;
+};
 //-------------------------------------------------------------------------
 
 #endif //_H_Entities_H_

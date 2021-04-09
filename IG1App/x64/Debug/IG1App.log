@@ -1,18 +1,1 @@
-﻿  Camera.cpp
-  Entity.cpp
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Entity.cpp(369,20): warning C4018: '<': no coinciden signed/unsigned
-  IG1App.cpp
-  main.cpp
-  Mesh.cpp
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(122,23): warning C4018: '<': no coinciden signed/unsigned
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(146,23): warning C4018: '<': no coinciden signed/unsigned
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(215,23): warning C4018: '<': no coinciden signed/unsigned
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(314,23): warning C4018: '<': no coinciden signed/unsigned
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Mesh.cpp(319,19): warning C4244: '=': conversión de 'double' a 'float'; posible pérdida de datos
-  Pixmap32RGBA.cpp
-  Scene.cpp
-G:\Uni\IG\ProyectosIG_x64_VS2019_FG\IG1App\Scene.cpp(58,33): warning C4305: 'argumento': truncamiento de 'double' a 'GLclampf'
-  Texture.cpp
-  Viewport.cpp
-  Generando código...
-  IG1App.vcxproj -> G:\Uni\IG\ProyectosIG_x64_VS2019_FG\bin\IG1AppDebug.exe
+﻿
