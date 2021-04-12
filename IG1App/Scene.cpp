@@ -14,6 +14,9 @@ void Scene::init()
 
 	// Lights
 	// Textures
+	Texture* nocheTex = new Texture();
+	nocheTex->load("../Bmps/noche.bmp");
+	gTextures.push_back(nocheTex);
 	// Graphics objects (entities) of the scene
 	gObjects.push_back(new EjesRGB(400.0));
 	//Esfera
@@ -22,6 +25,8 @@ void Scene::init()
 	//Tapa Cilindro
 	//Cilindro Alas
 	//Hexagonos Alas
+	gObjects.push_back(new Polygon3D(160.0, 6)); 
+	gObjects.back()->setTexture(nocheTex);
 }
 
 void Scene::update()

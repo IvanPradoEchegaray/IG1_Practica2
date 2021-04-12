@@ -411,13 +411,13 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	//Color
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0, 0.3, 0.7);
+	glColor3f(0.15, 0.28, 0.59);
 	//Dibujado
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluSphere(q, r, slices_, stacks_);
 	//Reset
-	glDisable(GL_COLOR_MATERIAL);
 	glColor3f(1.0,1.0,1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 //---Partial Cylinder
@@ -428,12 +428,13 @@ void Cylinder::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	//Color
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0, 65, 106);
+	glColor3f(0.15, 0.28, 0.59);
 	//Dibujado
 	gluCylinder(q, baseR, topR, h, slices_, stacks_);
 	gluQuadricDrawStyle(q, GLU_FILL);
 	//Reset
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 //--- Disk
@@ -443,11 +444,13 @@ void Disk::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	//Color
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0, 65, 106);
+	glColor3f(0.15, 0.28, 0.59);
 	//Dibujado
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluDisk(q, inR, outR, slices_, stacks_);
 	//Reset
+	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
 //---Partial Disk
@@ -457,12 +460,39 @@ void PartialDisk::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	//Color
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0, 65, 106);
+	glColor3f(0.15, 0.28, 0.59);
 	//Dibujado
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluPartialDisk(q, inR, outR, slices_, stacks_, startAng, sweepAng);
 	//Reset
 	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }
 
+
+Polygon3D::Polygon3D(GLdouble re, GLuint np)
+{
+	mMesh = Mesh::generaPolygonTexCor(re, np);
+}
+
+Polygon3D::~Polygon3D()
+{
+	//destruye el contenido de la malla y lo pone a nullptr
+	delete mMesh; mMesh = nullptr;
+}
+
+void Polygon3D::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		mTexture->bind(GL_REPEAT);
+		mMesh->render();
+		//Mirror
+		aMat = rotate(aMat, radians(180.0), dvec3(1.0, 0.0, 0.0));
+		upload(aMat);
+		mMesh->render();
+		mTexture->unbind();
+	}
+}
 #pragma endregion

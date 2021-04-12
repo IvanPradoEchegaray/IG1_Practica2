@@ -19,7 +19,6 @@ public:
 	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);	//creates Piersinski Mesh
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
-	//Practica 2
 	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h); //creates a "Star"3d
 	static Mesh* generaContCubo(GLdouble ld);
 	static Mesh* generaContCuboSuelo(GLdouble w, GLdouble h);
@@ -27,6 +26,9 @@ public:
 	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generaContCuboTexCor(GLdouble nl); 
 	static Mesh* generaContCuboSueloTexCor(GLdouble w, GLdouble h);
+	//Practica 2
+	static Mesh* generaPolygon3D(GLdouble re, GLuint np);
+	static Mesh* generaPolygonTexCor(GLdouble re, GLuint np);
 
 	Mesh() {};
 	virtual ~Mesh() {};

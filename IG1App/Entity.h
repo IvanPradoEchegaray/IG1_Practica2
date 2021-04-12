@@ -25,7 +25,7 @@ public:
 	glm::dmat4 const& modelMat() const { return mModelMat; };
 	void setModelMat(glm::dmat4 const& aMat) { mModelMat = aMat; };
 	void changemColor(glm::dvec4 const& newColor) { mColor = newColor; };
-	void seTexture(Texture* tex_) { mTexture = tex_; }
+	void setTexture(Texture* tex_) { mTexture = tex_; }
 	void setTranslation(glm::dvec3 pos) { mPos = pos; }
 	
 protected:
@@ -232,6 +232,14 @@ public:
 	virtual void update() {};
 protected:
 	GLdouble inR, outR, startAng, sweepAng;
+};
+//-------------------------------------------------------------------------
+class Polygon3D : public Abs_Entity
+{
+public:
+	explicit Polygon3D(GLdouble re, GLuint np);
+	~Polygon3D();
+	virtual void render(glm::dmat4 const& modelViewMat)const;
 };
 //-------------------------------------------------------------------------
 
