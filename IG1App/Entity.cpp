@@ -486,13 +486,14 @@ void Polygon3D::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr) {
 		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 		upload(aMat);
+		glDepthMask(GL_FALSE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		mTexture->bind(GL_REPEAT);
 		mMesh->render();
-		//Mirror
-		aMat = rotate(aMat, radians(180.0), dvec3(1.0, 0.0, 0.0));
-		upload(aMat);
-		mMesh->render();
 		mTexture->unbind();
+		glDepthMask(GL_TRUE);
+		glDisable(GL_BLEND);
 	}
 }
 #pragma endregion

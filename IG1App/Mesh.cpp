@@ -386,7 +386,7 @@ Mesh* Mesh::generaPolygon3D(GLdouble re, GLuint np)
     for (int i = 0; i < mesh->mNumVertices - 1; i++) {
         GLdouble x = 0 + re * cos(radians(ang));
         GLdouble y = 0 + re * sin(radians(ang));
-        ang += 360.0 / np;
+        ang -= 360.0 / np;
 
         mesh->vVertices.emplace_back(x, y, 0.0);
 
@@ -401,7 +401,7 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 
     mesh->vTexCoords.reserve(mesh->mNumVertices);
 
-    float ang = 90;
+    float ang = 0;
 
     mesh->vTexCoords.emplace_back(0, 0);    //Origen de poligono
 
@@ -409,7 +409,7 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 
         float x = cos(radians(ang)*0.5);
         float y = sin(radians(ang)*0.5);
-        ang += 360.0 / np;
+        ang -= 360.0 / np;
 
         mesh->vTexCoords.emplace_back(x, y);
     }
