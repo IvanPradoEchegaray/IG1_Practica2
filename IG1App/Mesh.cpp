@@ -403,12 +403,12 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 
     float ang = 0;
 
-    mesh->vTexCoords.emplace_back(0, 0);    //Origen de poligono
+    mesh->vTexCoords.emplace_back(0.5, 0.5);    //Origen de poligono
 
     for (int i = 0; i < mesh->mNumVertices - 1; i++) { //-1 pq el vertice inicial se declara antes
 
-        float x = cos(radians(ang)*0.5);
-        float y = sin(radians(ang)*0.5);
+        float x = cos(radians(ang))*0.5+0.5;
+        float y = sin(radians(ang))*0.5+0.5;
         ang -= 360.0 / np;
 
         mesh->vTexCoords.emplace_back(x, y);
