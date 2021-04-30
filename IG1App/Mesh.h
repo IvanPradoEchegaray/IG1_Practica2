@@ -49,6 +49,7 @@ protected:
 	std::vector<glm::dvec3> vVertices;  // vertex array
 	std::vector<glm::dvec4> vColors;    // color array
 	std::vector<glm::dvec2> vTexCoords;
+	std::vector < glm::dvec3> vNormals;	//tabla de normales
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------
@@ -56,12 +57,12 @@ protected:
 class IndexMesh : public Mesh {
 protected:
 	GLuint mNumIndices = 0;
-	GLuint* vIndices;
+	GLuint* vIndices = nullptr;
+	virtual void draw() const;
 public:
 	IndexMesh() { mPrimitive = GL_TRIANGLES; }
 	~IndexMesh() { delete[] vIndices; }
 	virtual void render() const;
-	virtual void draw() const;
 	static IndexMesh* generaAnilloCuadradoIndexado();
 };
 

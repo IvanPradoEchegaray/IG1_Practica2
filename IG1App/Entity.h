@@ -31,6 +31,7 @@ public:
 protected:
 
 	Mesh* mMesh = nullptr;   // the mesh
+	IndexMesh* iMesh = nullptr;
 	glm::dmat4 mModelMat;    // modeling matrix
 	glm::dvec4 mColor;		//glm::dvec4 = 4 elem vector, in this case its purpose is color info
 	glm::dvec3 mPos;	//Posicion de la matriz

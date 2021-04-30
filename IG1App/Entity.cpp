@@ -513,11 +513,7 @@ void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 	if (mMesh != nullptr)
 	{
 		dmat4 aMat = modelViewMat * mModelMat;
-		upload(aMat); glLineWidth(2);	//Grosor solo de la LINEA/PUNTO del objeto
-		glPolygonMode(GL_BACK, GL_LINE);
-		glPolygonMode(GL_FRONT, GL_FILL);
+		upload(aMat);
 		mMesh->render();
-		glLineWidth(1);	//Reseteamos el grosor para el siguiente objeto que utilize lineas o puntos, en caso de que utilice un grosor diferente
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }

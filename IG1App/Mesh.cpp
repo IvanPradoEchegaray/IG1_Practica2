@@ -27,11 +27,17 @@ void Mesh::render() const
         glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer
     }
 
+    if (vNormals.size() > 0) {
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+    }
+
 	draw();
 
     glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY); 
+    glDisableClientState(GL_NORMAL_ARRAY);
   }
 }
 //-------------------------------------------------------------------------
@@ -420,9 +426,12 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 //---Mesh Index--
 void IndexMesh::render() const
 {
-    glEnableClientState(GL_INDEX_ARRAY);
-    glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
-    draw();
+    if (vIndices != nullptr) {
+        Mesh::render();
+        glEnableClientState(GL_INDEX_ARRAY); 
+        glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+        draw();
+    }
     glDisableClientState(GL_INDEX_ARRAY);
 }
 
