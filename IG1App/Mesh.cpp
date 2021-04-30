@@ -420,15 +420,72 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 //---Mesh Index--
 void IndexMesh::render() const
 {
-    if (vIndices.size() >= 0) {
-        glEnableClientState(GL_INDEX_ARRAY);
-        glIndexPointer(GL_UNSIGNED_INT, 0, vIndices.data());
-    }
+    glEnableClientState(GL_INDEX_ARRAY);
+    glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
     draw();
     glDisableClientState(GL_INDEX_ARRAY);
 }
 
 void IndexMesh::draw() const
 {
-    glDrawElements(mPrimitive, mNumIndices, GL_UNSIGNED_INT, &vIndices);
+    glDrawElements(mPrimitive, mNumIndices, GL_UNSIGNED_INT, vIndices);
+}
+
+IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
+{
+    IndexMesh* m = new IndexMesh();
+
+    m->mPrimitive = GL_TRIANGLE_STRIP;
+
+    m->mNumVertices = 8;
+
+    m->vVertices.reserve(m->mNumVertices);
+
+    m->vColors.reserve(m->mNumVertices);
+
+    //Colores                                //Vértices                                
+    m->vColors.emplace_back(0.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(30.0, 30.0, 0.0);
+    m->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(10.0, 10.0, 0.0);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(70.0, 30.0, 0.0);
+    m->vColors.emplace_back(0.0, 0.0, 1.0, 1.0); m->vVertices.emplace_back(90.0, 10.0, 0.0);
+    m->vColors.emplace_back(1.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(70.0, 70.0, 0.0);
+    m->vColors.emplace_back(1.0, 0.0, 1.0, 1.0); m->vVertices.emplace_back(90.0, 90.0, 0.0);
+    m->vColors.emplace_back(0.0, 1.0, 1.0, 1.0); m->vVertices.emplace_back(30.0, 70.0, 0.0);
+    m->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(10.0, 90.0, 0.0);
+    m->vColors.emplace_back(0.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(30.0, 30.0, 0.0);
+    m->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(10.0, 10.0, 0.0);
+
+    //Indices
+    m->mNumIndices = 10;
+
+    m->vIndices = new GLuint[m->mNumIndices];
+
+    for (int i = 0; i < m->mNumIndices; i++) {
+        m->vIndices[i] = i % 8;
+    }
+
+    ////Normales
+
+    //m->vNormals.reserve(m->mNumVertices);
+
+    //for (int i = 0; i < m->mNumVertices; i++) {
+    //    m->vNormals.push_back(glm::dvec3(0, 0, 0));
+    //}
+
+    ////Los tres vértices del triángulo y n la normal
+    //glm::dvec3 a, b, c, n;
+
+    //a = m->vVertices[m->vIndices[0]];
+    //b = m->vVertices[m->vIndices[1]];
+    //c = m->vVertices[m->vIndices[2]];
+
+    ////Producto vectorial para sacar la perpendicular
+    //n = glm::cross((b - a), (c - a));
+
+    ////Porque todos los triángulos tienen la misma normal
+    //for (int i = 0; i < m->mNumVertices; i++) {
+    //    m->vNormals[i] = glm::normalize(n);
+    //}
+
+    return m;
 }

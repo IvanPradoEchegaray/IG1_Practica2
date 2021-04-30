@@ -242,5 +242,10 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 };
 //-------------------------------------------------------------------------
-
+class AnilloCuadrado : public Abs_Entity {
+public:
+	explicit AnilloCuadrado();
+	~AnilloCuadrado();
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+};
 #endif //_H_Entities_H_

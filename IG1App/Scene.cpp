@@ -52,6 +52,14 @@ void Scene::init()
 		wing2->setModelMat(translate(dmat4(1), poswing2));
 		gObjects.push_back(wing2);
 	}
+	if (mId == 1) {
+		glClearColor(0.5, 0.7, 1.0, 1.0);
+		//Ejes de coordenadas
+		gObjects.push_back(new EjesRGB(400.0));
+
+		AnilloCuadrado* cuadrado = new AnilloCuadrado();
+		gObjects.push_back(cuadrado);
+	}
 }
 
 void Scene::update()
@@ -106,7 +114,7 @@ void Scene::resetGL()
 void Scene::render(Camera const& cam) const 
 {
 	//Luz de la escena
-	sceneDirLight(cam);
+	//sceneDirLight(cam);
 	//Actualiza la/s camaras
 	cam.upload();
 
