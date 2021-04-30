@@ -52,5 +52,15 @@ protected:
 	virtual void draw() const;
 };
 //-------------------------------------------------------------------------
+class IndexMesh : public Mesh {
+protected:
+	GLuint mNumIndices = 0;
+	std::vector<glm::dvec3> vIndices;
+public:
+	IndexMesh() { mPrimitive = GL_TRIANGLES; }
+	~IndexMesh() { delete[]  &vIndices; }
+	virtual void render() const;
+	virtual void draw() const;
+};
 
 #endif //_H_Scene_H_
