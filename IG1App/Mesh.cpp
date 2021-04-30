@@ -461,8 +461,6 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
     m->vColors.emplace_back(1.0, 0.0, 1.0, 1.0); m->vVertices.emplace_back(90.0, 90.0, 0.0);
     m->vColors.emplace_back(0.0, 1.0, 1.0, 1.0); m->vVertices.emplace_back(30.0, 70.0, 0.0);
     m->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(10.0, 90.0, 0.0);
-    m->vColors.emplace_back(0.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(30.0, 30.0, 0.0);
-    m->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(10.0, 10.0, 0.0);
 
     //Indices
     m->mNumIndices = 10;
@@ -472,6 +470,73 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
     for (int i = 0; i < m->mNumIndices; i++) {
         m->vIndices[i] = i % 8;
     }
+
+    //Normales
+
+    m->vNormals.reserve(m->mNumVertices);
+
+    for (int i = 0; i < m->mNumVertices; i++) {
+        m->vNormals.push_back(glm::dvec3(0, 0, 0));
+    }
+
+    //Los tres vértices del triángulo y n la normal
+    glm::dvec3 a, b, c, n;
+
+    a = m->vVertices[m->vIndices[0]];
+    b = m->vVertices[m->vIndices[1]];
+    c = m->vVertices[m->vIndices[2]];
+
+    //Producto vectorial para sacar la perpendicular
+    n = glm::cross((b - a), (c - a));
+
+    //Porque todos los triángulos tienen la misma normal
+    for (int i = 0; i < m->mNumVertices; i++) {
+        m->vNormals[i] = glm::normalize(n);
+    }
+
+    return m;
+}
+
+IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
+{
+    IndexMesh* m = new IndexMesh();
+
+    m->mPrimitive = GL_TRIANGLE_STRIP;
+
+    m->mNumVertices = 8;
+
+    m->vVertices.reserve(m->mNumVertices);
+
+    m->vColors.reserve(m->mNumVertices);
+
+    //Colores                                //Vértices                                
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, l / 2, l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, -l / 2, l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, l / 2, l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, -l / 2, l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, l / 2, -l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, -l / 2, -l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, l / 2, -l / 2);
+    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, -l / 2, -l / 2);
+
+    //Indices
+    m->mNumIndices = 36;
+
+    unsigned int cuboIndices[] = 
+    {0, 1, 2,
+     1, 2, 3,
+     2, 3, 4,
+     3, 4, 5, 
+     4, 5, 6,
+     5, 6, 7,
+     6, 7, 8,
+     7, 8, 9,
+     0, 2, 6, 
+     2, 4, 6, 
+     1, 3, 7,
+     3, 5, 7};
+
+    m->vIndices = cuboIndices;
 
     ////Normales
 

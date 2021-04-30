@@ -58,7 +58,10 @@ void Scene::init()
 		gObjects.push_back(new EjesRGB(400.0));
 
 		AnilloCuadrado* cuadrado = new AnilloCuadrado();
-		gObjects.push_back(cuadrado);
+		Cubo* cubo = new Cubo(50);
+		
+		gObjects.push_back(cubo);
+	    //gObjects.push_back(cuadrado);
 	}
 }
 
