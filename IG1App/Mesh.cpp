@@ -426,13 +426,34 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 //---Mesh Index--
 void IndexMesh::render() const
 {
-    if (vIndices != nullptr) {
-        Mesh::render();
-        glEnableClientState(GL_INDEX_ARRAY); 
-        glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+    if (vVertices.size() > 0) {  // transfer data
+    // transfer the coordinates of the vertices
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(3, GL_DOUBLE, 0, vVertices.data());  // number of coordinates per vertex, type of each coordinate, stride, pointer 
+        if (vColors.size() > 0) { // transfer colors
+            glEnableClientState(GL_COLOR_ARRAY);
+            glColorPointer(4, GL_DOUBLE, 0, vColors.data());  // components number (rgba=4), type of each component, stride, pointer  
+        }
+        if (vTexCoords.size() > 0) { // transfer texture  data
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(2, GL_DOUBLE, 0, vTexCoords.data());  // components number (rgba=4), type of each component, stride, pointer
+        }
+        if (vIndices != nullptr) {
+            glEnableClientState(GL_INDEX_ARRAY);
+            glIndexPointer(GL_UNSIGNED_INT, 0, vIndices);
+        }
+        if (vNormals.size() > 0) {
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glNormalPointer(GL_DOUBLE, 0, vNormals.data());
+        }
         draw();
+
+        glDisableClientState(GL_COLOR_ARRAY);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_INDEX_ARRAY);
     }
-    glDisableClientState(GL_INDEX_ARRAY);
 }
 
 void IndexMesh::draw() const
@@ -501,7 +522,7 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 {
     IndexMesh* m = new IndexMesh();
 
-    m->mPrimitive = GL_TRIANGLE_STRIP;
+    m->mPrimitive = GL_TRIANGLES;
 
     m->mNumVertices = 8;
 
@@ -509,57 +530,49 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
 
     m->vColors.reserve(m->mNumVertices);
 
-    //Colores                                //Vértices                                
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, l / 2, l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, -l / 2, l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, l / 2, l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, -l / 2, l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, l / 2, -l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(l / 2, -l / 2, -l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, l / 2, -l / 2);
-    m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(-l / 2, -l / 2, -l / 2);
+    //Vertices
+    m->vVertices.emplace_back(-l / 2, l / 2, l / 2);
+    m->vVertices.emplace_back(-l / 2, -l / 2, l / 2);
+    m->vVertices.emplace_back(l / 2, l / 2, l / 2);
+    m->vVertices.emplace_back(l / 2, -l / 2, l / 2);
+    m->vVertices.emplace_back(l / 2, l / 2, -l / 2);
+    m->vVertices.emplace_back(l / 2, -l / 2, -l / 2);
+    m->vVertices.emplace_back(-l / 2, l / 2, -l / 2);
+    m->vVertices.emplace_back(-l / 2, -l / 2, -l / 2);
 
     //Indices
     m->mNumIndices = 36;
 
-    unsigned int cuboIndices[] = 
-    {0, 1, 2,
+    m->vIndices = new GLuint[m->mNumIndices]
+    { 0, 1, 2,
      1, 2, 3,
      2, 3, 4,
-     3, 4, 5, 
+     3, 4, 5,
      4, 5, 6,
      5, 6, 7,
-     6, 7, 8,
-     7, 8, 9,
-     0, 2, 6, 
-     2, 4, 6, 
+     6,7,1,
+     0,6,1,
+     0, 2, 6,
+     2, 4, 6,
      1, 3, 7,
-     3, 5, 7};
+     3, 5, 7 };
 
-    m->vIndices = cuboIndices;
+    m->vNormals.reserve(m->mNumVertices);
+    //Inicializa
+    for (int i = 0; i < m->mNumVertices; i++) {
+        m->vNormals.push_back(glm::dvec3(0, 0, 0));
+    }
 
-    ////Normales
-
-    //m->vNormals.reserve(m->mNumVertices);
-
-    //for (int i = 0; i < m->mNumVertices; i++) {
-    //    m->vNormals.push_back(glm::dvec3(0, 0, 0));
-    //}
-
-    ////Los tres vértices del triángulo y n la normal
-    //glm::dvec3 a, b, c, n;
-
-    //a = m->vVertices[m->vIndices[0]];
-    //b = m->vVertices[m->vIndices[1]];
-    //c = m->vVertices[m->vIndices[2]];
-
-    ////Producto vectorial para sacar la perpendicular
-    //n = glm::cross((b - a), (c - a));
-
-    ////Porque todos los triángulos tienen la misma normal
-    //for (int i = 0; i < m->mNumVertices; i++) {
-    //    m->vNormals[i] = glm::normalize(n);
-    //}
+    //SEGUNDO:
+    m->vNormals[0] = glm::normalize(glm::dvec3(-1, 1, 1));
+    m->vNormals[1] = glm::normalize(glm::dvec3(-1, -1, 1));
+    m->vNormals[2] = glm::normalize(glm::dvec3(1, 1, 1));
+    m->vNormals[3] = glm::normalize(glm::dvec3(1, -1, 1));
+    m->vNormals[4] = glm::normalize(glm::dvec3(1, 1, -1));
+    m->vNormals[5] = glm::normalize(glm::dvec3(1, -1, -1));
+    m->vNormals[6] = glm::normalize(glm::dvec3(-1, 1, -1));
+    m->vNormals[7] = glm::normalize(glm::dvec3(-1, -1, -1));
+    //Metodo eficiente
 
     return m;
 }

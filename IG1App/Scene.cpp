@@ -57,11 +57,11 @@ void Scene::init()
 		//Ejes de coordenadas
 		gObjects.push_back(new EjesRGB(400.0));
 
-		AnilloCuadrado* cuadrado = new AnilloCuadrado();
-		Cubo* cubo = new Cubo(50);
-		
-		gObjects.push_back(cubo);
+		//AnilloCuadrado* cuadrado = new AnilloCuadrado();
 	    //gObjects.push_back(cuadrado);
+
+		Cubo* cubo = new Cubo(50);
+		gObjects.push_back(cubo);
 	}
 }
 
@@ -117,7 +117,7 @@ void Scene::resetGL()
 void Scene::render(Camera const& cam) const 
 {
 	//Luz de la escena
-	//sceneDirLight(cam);
+	sceneDirLight(cam);
 	//Actualiza la/s camaras
 	cam.upload();
 

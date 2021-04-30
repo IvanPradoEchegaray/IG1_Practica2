@@ -500,44 +500,44 @@ void Polygon3D::render(glm::dmat4 const& modelViewMat) const
 
 AnilloCuadrado::AnilloCuadrado()
 {
-	mMesh = IndexMesh::generaAnilloCuadradoIndexado();
+	iMesh = IndexMesh::generaAnilloCuadradoIndexado();
 }
 
 AnilloCuadrado::~AnilloCuadrado()
 {
-	delete mMesh; mMesh = nullptr;
+	delete iMesh; iMesh = nullptr;
 }
 
 void AnilloCuadrado::render(glm::dmat4 const& modelViewMat) const
 {
-	if (mMesh != nullptr)
+	if (iMesh != nullptr)
 	{
 		dmat4 aMat = modelViewMat * mModelMat;
 		upload(aMat);
 		glEnable(GL_COLOR_MATERIAL);
-		mMesh->render();
+		iMesh->render();
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }
 
-Cubo::Cubo(GLuint l)
+Cubo::Cubo(GLdouble l)
 {
-	mMesh = IndexMesh::generaCuboConTapasIndexado(l);
+	iMesh = IndexMesh::generaCuboConTapasIndexado(l);
 }
 
 Cubo::~Cubo()
 {
-	delete mMesh; mMesh = nullptr;
+	delete iMesh; iMesh = nullptr;
 }
 
 void Cubo::render(glm::dmat4 const& modelViewMat) const
 {
-	if (mMesh != nullptr)
+	if (iMesh != nullptr)
 	{
-		dmat4 aMat = modelViewMat * mModelMat;
-		upload(aMat);
-		//glEnable(GL_COLOR_MATERIAL);
-		mMesh->render();
-		//glDisable(GL_COLOR_MATERIAL);
+		glColor3f(0.0, 1.0, 0.0);
+		glEnable(GL_COLOR_MATERIAL);
+		iMesh->render();
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
 	}
 }

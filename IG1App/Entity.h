@@ -251,7 +251,7 @@ public:
 };
 class Cubo : public Abs_Entity {
 public:
-	explicit Cubo(GLuint l);
+	explicit Cubo(GLdouble l);
 	~Cubo();
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 };
