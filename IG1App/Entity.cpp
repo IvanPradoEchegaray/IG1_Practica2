@@ -541,3 +541,27 @@ void Cubo::render(glm::dmat4 const& modelViewMat) const
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }
+
+CompoundEntity::~CompoundEntity()
+{
+	for (Abs_Entity* el : gObjects)
+	{
+		delete el;  el = nullptr;
+	}
+	gObjects.clear();
+}
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;
+	upload(aMat);
+	for (Abs_Entity* el : gObjects)
+	{
+		el->render(aMat);
+	}
+}
+
+void CompoundEntity::addEntity(Abs_Entity* ae)
+{
+	gObjects.push_back(ae);
+}

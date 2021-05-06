@@ -456,6 +456,7 @@ void IndexMesh::render() const
     }
 }
 
+
 void IndexMesh::buildNormalVectors()
 {
     for (int i = 0; i < mNumIndices; i += 3)
@@ -473,7 +474,6 @@ void IndexMesh::buildNormalVectors()
         vNormals[aux2] += n;
     }
 }
-
 void IndexMesh::draw() const
 {
     glDrawElements(mPrimitive, mNumIndices, GL_UNSIGNED_INT, vIndices);
@@ -562,18 +562,18 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
     m->mNumIndices = 36;
 
     m->vIndices = new GLuint[m->mNumIndices]
-    { 0, 1, 2,
-     1, 2, 3,
-     2, 3, 4,
-     3, 4, 5,
-     4, 5, 6,
-     5, 6, 7,
-     6,7,1,
-     0,6,1,
-     0, 2, 6,
-     2, 4, 6,
-     1, 3, 7,
-     3, 5, 7 };
+    { 0, 1, 3,  //Cara delantera
+     3, 2, 0,
+     2, 3, 4,   //Cara derecha
+     4, 3, 5,
+     4, 5, 6,   //Cara trasera
+     6, 5, 7,
+     6, 7, 1,   //Cara izqda
+     6, 1, 0,
+     6, 0, 4,   //Cara superior
+     4, 0, 2,
+     1, 7, 5,   //Cara inferior
+     5, 3, 1 };
 
     m->vNormals.reserve(m->mNumVertices);
     //Inicializa

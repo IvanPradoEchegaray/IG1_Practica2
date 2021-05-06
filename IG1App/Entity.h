@@ -257,10 +257,20 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat)const {};
 };
 //-------------------------------------------------------------------------
-class Cubo : public Abs_Entity {
+class Cubo : public EntityWithIndexMesh {
 public:
 	explicit Cubo(GLdouble l);
 	~Cubo();
 	virtual void render(glm::dmat4 const& modelViewMat)const;
+};
+//-------------------------------------------------------------------------
+class CompoundEntity : public Abs_Entity{
+public:
+	explicit CompoundEntity() {};
+	~CompoundEntity();
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+	void addEntity(Abs_Entity* ae);
+private:
+	std::vector<Abs_Entity*> gObjects;
 };
 #endif //_H_Entities_H_

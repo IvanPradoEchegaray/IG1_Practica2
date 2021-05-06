@@ -20,37 +20,49 @@ void Scene::init()
 		gTextures.push_back(nocheTex);
 		// Graphics objects (entities) of the scene
 		gObjects.push_back(new EjesRGB(400.0));
-		//--Esfera--
-		gObjects.push_back(new Sphere(50.0));
+		
+		//--CORE--
+		Sphere* core = new Sphere(50.0);
+		//--FRONT--
 		//Cilindro Ancho
 		Cylinder* c = new Cylinder(35.0, 35.0, 20.0);
 		dvec3 posC = dvec3(30, 0, 0);
 		c->setModelMat(translate(dmat4(1), posC));
 		c->setModelMat(rotate(c->modelMat(), radians(90.0), dvec3(0.0, 1.0, 0.0)));
-		gObjects.push_back(c);
 		//Tapa Cilindro
 		Disk* tapa = new Disk(0, 35.0);
 		dvec3 posTapa = dvec3(50, 0, 0);
 		tapa->setModelMat(translate(dmat4(1), posTapa));
 		tapa->setModelMat(rotate(tapa->modelMat(), radians(90.0), dvec3(0.0, 1.0, 0.0)));
-		gObjects.push_back(tapa);
-		//Cilindro Alas
-		Cylinder* c2 = new Cylinder(15.0, 15.0, 200.0);
-		dvec3 posC2 = dvec3(0, 0, -100);
-		c2->setModelMat(translate(dmat4(1), posC2));
-		gObjects.push_back(c2);
-		//--Ala 1--
+		//--FRONT-
+		CompoundEntity* front = new CompoundEntity();
+		front->addEntity(c);
+		front->addEntity(tapa);
+		//--SHAFT--
+		Cylinder* shaft = new Cylinder(15.0, 15.0, 200.0);
+		dvec3 posshaft = dvec3(0, 0, -100);
+		shaft->setModelMat(translate(dmat4(1), posshaft));
+		//--WING1--
 		Polygon3D* wing1 = new Polygon3D(160.0, 6);
 		wing1->setTexture(nocheTex);
 		dvec3 poswing1 = dvec3(0, 0, 100.0);
 		wing1->setModelMat(translate(dmat4(1), poswing1));
-		gObjects.push_back(wing1);
-		//--Ala 2--
+		//--WING2--
 		Polygon3D* wing2 = new Polygon3D(160.0, 6);
 		wing2->setTexture(nocheTex);
 		dvec3 poswing2 = dvec3(0, 0, -100.0);
 		wing2->setModelMat(translate(dmat4(1), poswing2));
-		gObjects.push_back(wing2);
+
+		//TIE-FIGHTER
+		CompoundEntity* tie_fighter = new CompoundEntity();
+		tie_fighter->addEntity(core);
+		tie_fighter->addEntity(front);
+		tie_fighter->addEntity(shaft);
+		tie_fighter->addEntity(wing1);
+		tie_fighter->addEntity(wing2);
+		gObjects.push_back(tie_fighter);
+
+
 	}
 	if (mId == 1) {
 		glClearColor(0.5, 0.7, 1.0, 1.0);
