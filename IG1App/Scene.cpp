@@ -57,8 +57,14 @@ void Scene::init()
 		//Ejes de coordenadas
 		gObjects.push_back(new EjesRGB(400.0));
 
-		//AnilloCuadrado* cuadrado = new AnilloCuadrado();
-	    //gObjects.push_back(cuadrado);
+		AnilloCuadrado* cuadrado = new AnilloCuadrado();
+	    gObjects.push_back(cuadrado);
+
+	}
+	if (mId == 2)
+	{
+		glClearColor(0.5, 0.5, 0.5, 1.0);
+		gObjects.push_back(new EjesRGB(400.0));
 
 		Cubo* cubo = new Cubo(50);
 		gObjects.push_back(cubo);

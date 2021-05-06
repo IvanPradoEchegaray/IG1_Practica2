@@ -154,6 +154,9 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '1':
 		mScene->changeScene(1);
 		break;
+	case '2':
+		mScene->changeScene(2);
+		break;
 	default:
 		need_redisplay = false;
 		break;
@@ -173,21 +176,21 @@ void IG1App::specialKey(int key, int x, int y)
 	{
 	case GLUT_KEY_RIGHT:
 		if (mdf == GLUT_ACTIVE_CTRL)
-			mCamera->roll(-1);   // rotates -1 on the Z axis
+			mCamera->roll(-5);   // rotates -1 on the Z axis
 		else
-			mCamera->yaw(1);    // rotates 1 on the Y axis
+			mCamera->yaw(5);    // rotates 1 on the Y axis
 		break;
 	case GLUT_KEY_LEFT:
 		if (mdf == GLUT_ACTIVE_CTRL)
-			mCamera->roll(1);      // rotates 1 on the Z axis 
+			mCamera->roll(5);      // rotates 1 on the Z axis 
 		else
-			mCamera->yaw(-1);     // rotate -1 on the Y axis 
+			mCamera->yaw(-5);     // rotate -1 on the Y axis 
 		break;
 	case GLUT_KEY_UP:
-		mCamera->pitch(-1);    // rotates 1 on the X axis
+		mCamera->pitch(-5);    // rotates 1 on the X axis
 		break;
 	case GLUT_KEY_DOWN:
-		mCamera->pitch(1);   // rotates -1 on the X axis
+		mCamera->pitch(5);   // rotates -1 on the X axis
 		break;
 	default:
 		need_redisplay = false;

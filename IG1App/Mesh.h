@@ -63,6 +63,7 @@ public:
 	IndexMesh() { mPrimitive = GL_TRIANGLES; }
 	~IndexMesh() { delete[] vIndices; }
 	virtual void render() const;
+	void buildNormalVectors();
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
 	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);

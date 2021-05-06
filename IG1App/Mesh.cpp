@@ -456,6 +456,24 @@ void IndexMesh::render() const
     }
 }
 
+void IndexMesh::buildNormalVectors()
+{
+    for (int i = 0; i < mNumIndices; i += 3)
+    {
+        GLuint aux0, aux1, aux2;
+
+        aux0 = vIndices[i];
+        aux1 = vIndices[i + 1];
+        aux2 = vIndices[i + 2];
+
+        dvec3 n = normalize(cross((vVertices[aux2] - vVertices[aux1]), (vVertices[aux0] - vVertices[aux1])));
+
+        vNormals[aux0] += n;
+        vNormals[aux1] += n;
+        vNormals[aux2] += n;
+    }
+}
+
 void IndexMesh::draw() const
 {
     glDrawElements(mPrimitive, mNumIndices, GL_UNSIGNED_INT, vIndices);
@@ -564,15 +582,17 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
     }
 
     //SEGUNDO:
-    m->vNormals[0] = glm::normalize(glm::dvec3(-1, 1, 1));
+    /*m->vNormals[0] = glm::normalize(glm::dvec3(-1, 1, 1));
     m->vNormals[1] = glm::normalize(glm::dvec3(-1, -1, 1));
     m->vNormals[2] = glm::normalize(glm::dvec3(1, 1, 1));
     m->vNormals[3] = glm::normalize(glm::dvec3(1, -1, 1));
     m->vNormals[4] = glm::normalize(glm::dvec3(1, 1, -1));
     m->vNormals[5] = glm::normalize(glm::dvec3(1, -1, -1));
     m->vNormals[6] = glm::normalize(glm::dvec3(-1, 1, -1));
-    m->vNormals[7] = glm::normalize(glm::dvec3(-1, -1, -1));
+    m->vNormals[7] = glm::normalize(glm::dvec3(-1, -1, -1));*/
+
     //Metodo eficiente
+    m->buildNormalVectors();
 
     return m;
 }
