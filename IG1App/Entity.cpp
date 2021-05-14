@@ -565,3 +565,44 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 {
 	gObjects.push_back(ae);
 }
+
+TieFighter::TieFighter(Texture* tex_)
+{
+	//--CORE--
+	Sphere* core = new Sphere(50.0);
+	//--FRONT--
+	//Cilindro Ancho
+	Cylinder* c = new Cylinder(35.0, 35.0, 20.0);
+	dvec3 posC = dvec3(30, 0, 0);
+	c->setModelMat(translate(dmat4(1), posC));
+	c->setModelMat(rotate(c->modelMat(), radians(90.0), dvec3(0.0, 1.0, 0.0)));
+	//Tapa Cilindro
+	Disk* tapa = new Disk(0, 35.0);
+	dvec3 posTapa = dvec3(50, 0, 0);
+	tapa->setModelMat(translate(dmat4(1), posTapa));
+	tapa->setModelMat(rotate(tapa->modelMat(), radians(90.0), dvec3(0.0, 1.0, 0.0)));
+	//--FRONT-
+	CompoundEntity* front = new CompoundEntity();
+	front->addEntity(c);
+	front->addEntity(tapa);
+	//--SHAFT--
+	Cylinder* shaft = new Cylinder(15.0, 15.0, 200.0);
+	dvec3 posshaft = dvec3(0, 0, -100);
+	shaft->setModelMat(translate(dmat4(1), posshaft));
+	//--WING1--
+	Polygon3D* wing1 = new Polygon3D(160.0, 6);
+	wing1->setTexture(tex_);
+	dvec3 poswing1 = dvec3(0, 0, 100.0);
+	wing1->setModelMat(translate(dmat4(1), poswing1));
+	//--WING2--
+	Polygon3D* wing2 = new Polygon3D(160.0, 6);
+	wing2->setTexture(tex_);
+	dvec3 poswing2 = dvec3(0, 0, -100.0);
+	wing2->setModelMat(translate(dmat4(1), poswing2));
+
+	addEntity(core);
+	addEntity(front);
+	addEntity(shaft);
+	addEntity(wing1);
+	addEntity(wing2);
+}

@@ -272,5 +272,13 @@ public:
 	void addEntity(Abs_Entity* ae);
 private:
 	std::vector<Abs_Entity*> gObjects;
+
+};
+	//-------------------------------------------------------------------------
+class TieFighter : public CompoundEntity {
+public:
+	TieFighter(Texture* tex_);
+	~TieFighter() {};
+	virtual void render()const {};
 };
 #endif //_H_Entities_H_
