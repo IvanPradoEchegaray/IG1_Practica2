@@ -274,11 +274,32 @@ private:
 	std::vector<Abs_Entity*> gObjects;
 
 };
-	//-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
 class TieFighter : public CompoundEntity {
 public:
 	TieFighter(Texture* tex_);
 	~TieFighter() {};
 	virtual void render()const {};
+};
+//-------------------------------------------------------------------------
+class Cono : public Abs_Entity {
+public:
+	explicit Cono(GLdouble h, GLdouble r, GLint n);
+	~Cono() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+private:
+	GLdouble h_;
+	GLdouble r_;
+	GLdouble n_;
+};
+class Esfera : public Abs_Entity {
+public:
+	explicit Esfera(GLdouble r, GLdouble p, GLint m);
+	~Esfera() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+private:
+	GLdouble r_;
+	GLdouble p_;
+	GLdouble m_;
 };
 #endif //_H_Entities_H_

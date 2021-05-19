@@ -1,4 +1,4 @@
-#include "Entity.h"
+﻿#include "Entity.h"
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
@@ -605,4 +605,61 @@ TieFighter::TieFighter(Texture* tex_)
 	addEntity(shaft);
 	addEntity(wing1);
 	addEntity(wing2);
+}
+
+Cono::Cono(GLdouble h, GLdouble r, GLint n) : h_(h), r_(r), n_(n)
+{
+	// h=altura del cono, r=radio de la base
+	// n=número de muestras, m=número de puntos del perfil
+	int m = 3;
+	dvec3* perfil = new dvec3[m];
+	perfil[0] = dvec3(0.5, 0.0, 0.0);
+	perfil[1] = dvec3(r_, 0.0, 0.0);
+	perfil[2] = dvec3(0.5, h_, 0.0);
+	mMesh = MbR::generaIndexMeshByRevolution(m, n_, perfil);
+}
+
+void Cono::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	//Color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(0.15, 0.28, 0.59);
+	mMesh->render();
+	//Reset
+	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
+}
+
+Esfera::Esfera(GLdouble r, GLdouble p, GLint m) : r_(r), p_(p), m_(m)
+{
+	// r= radio 
+	// m=número de muestras, p=número de puntos del perfil
+	float a = 270;
+	float ang = 180.0 / (p_ - 1);
+
+	dvec3* perfil = new dvec3[p_];
+
+	for (int i = 0; i < p_; i++) {
+		float x = cos(radians(a)) * r_ + 0.5;
+		float y = sin(radians(a)) * r_ + 0.5;
+		a += ang;
+		perfil[i] = dvec3(x, y, 0.0);
+	}
+
+	mMesh = MbR::generaIndexMeshByRevolution(p_, m_, perfil);
+}
+
+void Esfera::render(glm::dmat4 const& modelViewMat) const
+{
+	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+	upload(aMat);
+	//Color
+	glEnable(GL_COLOR_MATERIAL);
+	glColor3f(0.15, 0.28, 0.59);
+	mMesh->render();
+	//Reset
+	glColor3f(1.0, 1.0, 1.0);
+	glDisable(GL_COLOR_MATERIAL);
 }

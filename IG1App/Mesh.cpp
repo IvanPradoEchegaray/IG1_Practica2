@@ -1,4 +1,4 @@
-#include "Mesh.h"
+﻿#include "Mesh.h"
 #include "CheckML.h"
 #include <fstream>
 using namespace std;
@@ -459,7 +459,11 @@ void IndexMesh::render() const
 
 void IndexMesh::buildNormalVectors()
 {
-    for (int i = 0; i < mNumIndices; i += 3)
+    vNormals.reserve(mNumVertices);
+    for (int i = 0; i < mNumVertices; i++)
+        vNormals.push_back(glm::dvec3(0,0,0));
+
+   for (int i = 0; i < mNumIndices; i += 3)
     {
         GLuint aux0, aux1, aux2;
 
@@ -467,12 +471,14 @@ void IndexMesh::buildNormalVectors()
         aux1 = vIndices[i + 1];
         aux2 = vIndices[i + 2];
 
-        dvec3 n = normalize(cross((vVertices[aux2] - vVertices[aux1]), (vVertices[aux0] - vVertices[aux1])));
+        dvec3 n = cross((vVertices[aux2] - vVertices[aux1]), (vVertices[aux0] - vVertices[aux1]));
 
         vNormals[aux0] += n;
         vNormals[aux1] += n;
         vNormals[aux2] += n;
     }
+   for (int i = 0; i < mNumVertices; i++)
+       vNormals[i] = normalize(vNormals[i]);
 }
 void IndexMesh::draw() const
 {
@@ -491,7 +497,7 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
 
     m->vColors.reserve(m->mNumVertices);
 
-    //Colores                                //V�rtices                                
+    //Colores                                //V駻tices                                
     m->vColors.emplace_back(0.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(30.0, 30.0, 0.0);
     m->vColors.emplace_back(1.0, 0.0, 0.0, 1.0); m->vVertices.emplace_back(10.0, 10.0, 0.0);
     m->vColors.emplace_back(0.0, 1.0, 0.0, 1.0); m->vVertices.emplace_back(70.0, 30.0, 0.0);
@@ -518,7 +524,7 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
         m->vNormals.push_back(glm::dvec3(0, 0, 0));
     }
 
-    //Los tres v�rtices del tri�ngulo y n la normal
+    //Los tres v駻tices del tri疣gulo y n la normal
     glm::dvec3 a, b, c, n;
 
     a = m->vVertices[m->vIndices[0]];
@@ -528,7 +534,7 @@ IndexMesh* IndexMesh::generaAnilloCuadradoIndexado()
     //Producto vectorial para sacar la perpendicular
     n = glm::cross((b - a), (c - a));
 
-    //Porque todos los tri�ngulos tienen la misma normal
+    //Porque todos los tri疣gulos tienen la misma normal
     for (int i = 0; i < m->mNumVertices; i++) {
         m->vNormals[i] = glm::normalize(n);
     }
@@ -595,4 +601,66 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
     m->buildNormalVectors();
 
     return m;
+}
+
+
+MbR::MbR(int m, int n, dvec3* perfil) : m_(m), n_(n), perfil_(perfil) {};
+
+MbR* MbR::generaIndexMeshByRevolution(int mm, int nn, dvec3* perfil)
+{
+    MbR* mesh = new MbR(mm, nn, perfil);
+    // Definir la primitiva como GL_TRIANGLES
+    mesh->mPrimitive = GL_TRIANGLES;
+    // Definir el n伹ero de v駻tices como nn*mm
+    mesh->mNumVertices = nn * mm;
+    // Usar un vector auxiliar de v駻tices
+    dvec3* verticesAux = new dvec3[mesh->mNumVertices];
+    for (int i = 0; i < nn; i++) {
+        // Generar la muestra i-駸ima de v駻tices
+        GLdouble theta = i * 360 / nn;
+        GLdouble c = cos(radians(theta));
+        GLdouble s = sin(radians(theta));
+        // R_y(theta) es la matriz de rotaci alrededor del eje Y
+        for (int j = 0; j < mm; j++) {
+            int indice = i * mm + j;
+            GLdouble x = c * perfil[j].x + s * perfil[j].z;
+            GLdouble z = -s * perfil[j].x + c * perfil[j].z;
+            verticesAux[indice] = dvec3(x, perfil[j].y, z);
+        }
+    }
+
+    //Volcar el array auxiliar vertices que acabamos de usar, en vVertices
+    for (int i = 0; i < mesh->mNumVertices; i++)
+        mesh->vVertices.push_back(verticesAux[i]);
+
+    // Es 6mn - 6n
+    //  Al ser 6 vertices por cara, y dar mn vueltas, esas son las caras que se construyen.
+    // Como arriba y abajo no son 6 sino 3, pues hay que restarle esos vertices al total. 
+    // Como se realiza n vueltas, y arriba y abajo son 6 en total, es -6*n
+    mesh->mNumIndices = 6 * nn * (mm - 1);
+    mesh->vIndices = new GLuint[mesh->mNumIndices];
+    int indiceMayor = 0;
+    //El contador i recorre las muestras alrededor del eje Y
+    for (int i = 0; i < nn; i++) {
+        // El contador j recorre los v�rtices del perfil, 
+        // de abajo arriba. Las caras cuadrangulares resultan
+        // al unir la muestra i-�sima con la (i+1)%nn-�sima
+        for (int j = 0; j < mm - 1; j++) {
+            // El contador indice sirve para llevar cuenta 
+            // de los �ndices generados hasta ahora. Se recorre
+            // la cara desde la esquina inferior izquierda 
+            int indice = i * mm + j;
+            //Primer triangulo de la cara
+            mesh->vIndices[indiceMayor++] = indice;
+            mesh->vIndices[indiceMayor++] = (indice + mm) % (nn * mm);
+            mesh->vIndices[indiceMayor++] = (indice + mm + 1) % (nn * mm);
+            //Segundo subnormal triangulo de la cara
+            mesh->vIndices[indiceMayor++] = (indice + mm + 1) % (nn * mm);
+            mesh->vIndices[indiceMayor++] = (indice + 1);
+            mesh->vIndices[indiceMayor++] = indice;
+        }
+    }
+
+    mesh->buildNormalVectors();
+    return mesh;
 }

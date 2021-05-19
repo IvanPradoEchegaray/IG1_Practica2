@@ -1,6 +1,4 @@
-//#pragma once
-#ifndef _H_Mesh_H_
-#define _H_Mesh_H_
+#pragma once
 
 #include <GL/freeglut.h>
 #include <glm.hpp>
@@ -55,10 +53,6 @@ protected:
 //-------------------------------------------------------------------------
 
 class IndexMesh : public Mesh {
-protected:
-	GLuint mNumIndices = 0;
-	GLuint* vIndices = nullptr;
-	virtual void draw() const;
 public:
 	IndexMesh() { mPrimitive = GL_TRIANGLES; }
 	~IndexMesh() { delete[] vIndices; }
@@ -67,6 +61,18 @@ public:
 
 	static IndexMesh* generaAnilloCuadradoIndexado();
 	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
+protected:
+	GLuint mNumIndices = 0;
+	GLuint* vIndices = nullptr;
+	virtual void draw() const;
 };
 
-#endif //_H_Scene_H_
+class MbR : public IndexMesh {
+public:
+	MbR(int m, int n, glm::dvec3* perfil);
+	static MbR* generaIndexMeshByRevolution(int mm, int nn, glm::dvec3* perfil);
+protected:
+	int m_; // numero de puntos del perfil
+	int n_; // numero de rotaciones (muestras) que se toman
+	glm::dvec3* perfil_; // perfil original en el plano XY
+};

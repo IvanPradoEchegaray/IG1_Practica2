@@ -42,6 +42,18 @@ void Scene::init()
 		Cubo* cubo = new Cubo(50);
 		gObjects.push_back(cubo);
 	}
+	if (mId == 3) {
+		glClearColor(0.8, 0.5, 0.5, 1.0);
+		//Ejes de coordenadas
+		gObjects.push_back(new EjesRGB(400.0));
+		//Sphere
+		Sphere* sphere = new Sphere(25);
+		sphere->setModelMat(translate(dmat4(1), dvec3(75.0, 0.0, 0.0)));
+		gObjects.push_back(sphere);
+		//Esfera
+		Esfera* esfera = new Esfera(25, 8, 50);
+		gObjects.push_back(esfera);
+	}
 }
 
 void Scene::update()
