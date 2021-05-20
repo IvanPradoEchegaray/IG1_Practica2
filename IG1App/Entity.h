@@ -318,7 +318,8 @@ public:
 };
 //-------------------------------------------------------------------------
 class GridCube : public CompoundEntity {
-	GridCube(Texture* topTex, Texture* sideTex);
+public:
+	GridCube(GLdouble lado, GLuint nDiv, Texture* topTex, Texture* sideTex);
 	~GridCube() {};
 	virtual void render()const {};
 };

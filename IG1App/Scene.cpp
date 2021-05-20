@@ -55,6 +55,23 @@ void Scene::init()
 		Esfera* esfera = new Esfera(25, 8, 50);
 		gObjects.push_back(esfera);
 	}
+	if (mId == 4)
+	{
+		glClearColor(0.5, 0.8, 0.5, 1.0);
+		Texture* top_bot_tex = new Texture();
+		top_bot_tex->load("../Bmps/checker.bmp");
+		gTextures.push_back(top_bot_tex);
+		Texture* side_tex = new Texture();
+		side_tex->load("../Bmps/stones.bmp");
+		gTextures.push_back(side_tex);
+
+		// Graphics objects (entities) of the scene
+		gObjects.push_back(new EjesRGB(400.0));
+
+		//Cubo
+		GridCube* cube = new GridCube(200.0, 10, top_bot_tex, side_tex);
+		gObjects.push_back(cube);
+	}
 }
 
 void Scene::update()

@@ -77,13 +77,35 @@ Mesh * Mesh::createRGBAxes(GLdouble l)
   return mesh;
 }
 
-Mesh* Mesh::createTrianguloRGB() {
-    Mesh* mesh = generaPoligono(3, 30);
-
+Mesh* Mesh::createTriangleRGB(GLdouble rd) //Creacion de una malla que se llamara en su entidad correspondiente
+{
+    /*Triangulo RGB comentado porque tiene muchas notas utiles
+    //Crea una nueva malla vacia
+    Mesh* mesh = new Mesh();
+    //Le dice a la malla que se rellene siguiendo el GL asignado, Point, Lines, Polygon...
+    //NOTA: DEPENDE DE LA MALLA PRIMITIVA se crearan v/n mallas, sienddo v la cantidad de vertices asignados y n la cantidad minima de vertices necesarios para crear la malla,
+    //ignorando el resto de la division
     mesh->mPrimitive = GL_TRIANGLES;
+    //Vertices de la malla
+    mesh->mNumVertices = 3; //En este caso se crearan -> mNumVertices/3 vertices necesarios para malla triangulo = 1
+    //Se reserva en el vector vertices un n de espacios igual al de vertices, todo vertice con indice mayor a mNumVerices, no se mostrara
+    mesh->vVertices.reserve(mesh->mNumVertices);
+    mesh->vVertices.emplace_back(0.0, 50.0, 0.0);
+    mesh->vVertices.emplace_back(-50.0, -25.0, 0.0);
+    mesh->vVertices.emplace_back(50.0, -25.0, 0.0);
+    mesh->vVertices.emplace_back(0.0, 50.0, 20.0);  //Ignorado
+    //Se reserva la cantidad de colores igual al numero de vertices, todo vertice con indice mayor a mNumVerices, no se coloreara (con emplaceback())
+    mesh->vColors.reserve(mesh->mNumVertices);
+    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
+    mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0); //Ignorado
 
-    mesh->mNumVertices = 3;
+    return mesh;*/
 
+    //TrianguloRGB ejercicio
+    Mesh* mesh = generaPoligono(3, rd);
+    mesh->mPrimitive = GL_TRIANGLES;
     mesh->vColors.reserve(mesh->mNumVertices);
     mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
     mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
@@ -618,35 +640,41 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
 
     m->mPrimitive = GL_TRIANGLES;
 
-    m->mNumVertices = (nDiv + 1) * (nDiv + 1);
+    GLdouble incrXZ = lado / nDiv; //Longitud de la division
+    GLdouble numFC = nDiv+1; //Longitud de la division
 
-    m->vVertices.reserve(m->mNumVertices);
+    //Generacion de vertices
+    m->mNumVertices = numFC * numFC;
+    m->vVertices.resize(m->mNumVertices);
 
-    m->vColors.reserve(m->mNumVertices);
-
-    int divL = lado / nDiv; //Longitud de la division
     //Vertices
-    for (int i = 0; i < m->mNumVertices; i++) {
-        GLdouble x = divL * (i / nDiv) - lado / 2;
-        GLdouble z = divL * (i % nDiv) - lado / 2;
-        m->vVertices.emplace_back(x, 0, z);
+    for (int i = 0; i < numFC; i++) {
+        for (int j = 0; j < numFC; j++)
+        {
+            GLdouble x = - lado / 2;
+            GLdouble z = - lado / 2;
+            m->vVertices[i * numFC + j] = glm::dvec3(x + j * incrXZ, 0, z + i * incrXZ);
+        }
     }
     //Indices
-    m->mNumIndices = nDiv * nDiv * 2;
+    m->mNumIndices = nDiv * nDiv * 6;
+    m->vIndices = new GLuint[m->mNumIndices];
+    //generacion de indices
+    int i = 0;
+    for (int h = 0; h < nDiv; h++)
+    {
+        for (int k = 0; k < nDiv; k++)
+        {
+            GLuint iv = h * numFC + k;
+            m->vIndices[i++] = iv;
+            m->vIndices[i++] = iv + numFC; 
+            m->vIndices[i++] = iv + 1;
+            m->vIndices[i++] = iv + 1;
+            m->vIndices[i++] = iv + numFC;
+            m->vIndices[i++] = iv + numFC + 1;
 
-    m->vIndices = new GLuint[m->mNumIndices]
-    { 0, 1, 3,  //Cara delantera
-     3, 2, 0,
-     2, 3, 4,   //Cara derecha
-     4, 3, 5,
-     4, 5, 6,   //Cara trasera
-     6, 5, 7,
-     6, 7, 1,   //Cara izqda
-     6, 1, 0,
-     6, 0, 4,   //Cara superior
-     4, 0, 2,
-     1, 7, 5,   //Cara inferior
-     5, 3, 1 };
+        }
+    }
 
     m->vNormals.reserve(m->mNumVertices);
     //Inicializa
@@ -655,6 +683,26 @@ IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
     }
     //Metodo eficiente
     m->buildNormalVectors();
+    return m;
+}
+
+IndexMesh* IndexMesh::generateGridTex(GLdouble lado, GLuint nDiv)
+{
+    IndexMesh* m = generateGrid(lado, nDiv);
+    GLdouble numFC = nDiv + 1;
+
+    //Generacion coordenadas
+    m->vTexCoords.resize(m->mNumVertices);
+
+    int s = 0, t = 1;
+    for (int i = 0; i < numFC; i++)
+    {
+        for (int j = 0; j < numFC; j++)
+        {
+            m->vTexCoords[i * numFC + j] = dvec2(s + (1 / numFC * j), t - (1 / numFC * i));
+        }
+    }
+
     return m;
 }
 

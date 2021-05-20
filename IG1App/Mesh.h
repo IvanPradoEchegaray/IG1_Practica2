@@ -13,7 +13,7 @@ public:
 
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
 	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
-	static Mesh* createTrianguloRGB();
+	static Mesh* createTriangleRGB(GLdouble rd);
 	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
@@ -62,6 +62,7 @@ public:
 	static IndexMesh* generaAnilloCuadradoIndexado();
 	static IndexMesh* generaCuboConTapasIndexado(GLdouble l);
 	static IndexMesh* generateGrid(GLdouble lado, GLuint nDiv);
+	static IndexMesh* generateGridTex(GLdouble lado, GLuint nDiv);
 protected:
 	GLuint mNumIndices = 0;
 	GLuint* vIndices = nullptr;

@@ -1,8 +1,4 @@
 Juan Diego Mendoza Reyes
 Ivan Prado Echegaray
 
-<<<<<<< Updated upstream
-Practica 2 realizada 
-=======
-Practica 2 realizada
->>>>>>> Stashed changes
+Practica 2 realizada hasta el ejercicio 22
