@@ -686,3 +686,61 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 	glColor3f(1.0, 1.0, 1.0);
 	glDisable(GL_COLOR_MATERIAL);
 }
+
+Grid::Grid(GLdouble l, GLuint nDiv)
+{
+}
+
+void Grid::render(glm::dmat4 const& modelViewMat) const
+{
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+		mTexture->bind(GL_REPEAT);
+		mMesh->render();
+		mTexture->unbind();
+	}
+}
+
+GridCube::GridCube(Texture* topTex, Texture* sideTex) {
+	//Bottom
+	Grid* bot = new Grid(200.0, 10);
+	bot->setTexture(topTex);
+	//SideBack
+	Grid* back = new Grid(200.0, 10);
+	back->setTexture(sideTex);
+	dvec3 posback = dvec3(0, 100.0, -100.0);
+	back->setModelMat(translate(dmat4(1), posback));
+	back->setModelMat(rotate(back->modelMat(), radians(90.0), dvec3(1.0, 0.0, 0.0)));
+	//SideLeft
+	Grid* left = new Grid(200.0, 10);
+	left->setTexture(sideTex);
+	dvec3 posleft = dvec3(-100.0, 100.0, 0);
+	left->setModelMat(translate(dmat4(1), posleft));
+	left->setModelMat(rotate(left->modelMat(), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	//SideRight
+	Grid* right = new Grid(200.0, 10);
+	right->setTexture(sideTex);
+	dvec3 posright = dvec3(100.0, 100.0, 0);
+	right->setModelMat(translate(dmat4(1), posright));
+	right->setModelMat(rotate(right->modelMat(), radians(90.0), dvec3(0.0, 0.0, 1.0)));
+	//SideFront
+	Grid* front = new Grid(200.0, 10);
+	front->setTexture(sideTex);
+	dvec3 posfront = dvec3(0, 100.0, 100.0);
+	front->setModelMat(translate(dmat4(1), posfront));
+	front->setModelMat(rotate(front->modelMat(), radians(90.0), dvec3(1.0, 0.0, 0.0)));
+	//Top
+	Grid* top = new Grid(200.0, 10);
+	top->setTexture(topTex);
+	dvec3 postop = dvec3(0, 200.0, 0);
+	back->setModelMat(translate(dmat4(1), postop));
+
+	//Entidad Compuesta(Box)
+	addEntity(bot);
+	addEntity(back);
+	addEntity(left);
+	addEntity(right);
+	addEntity(front);
+	addEntity(top);
+}

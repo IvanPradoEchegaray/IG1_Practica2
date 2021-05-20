@@ -298,6 +298,7 @@ private:
 	GLdouble r_;
 	GLdouble n_;
 };
+//-------------------------------------------------------------------------
 class Esfera : public Abs_Entity {
 public:
 	explicit Esfera(GLdouble r, GLdouble p, GLint m);
@@ -307,5 +308,18 @@ private:
 	GLdouble r_;
 	GLdouble p_;
 	GLdouble m_;
+};
+//-------------------------------------------------------------------------
+class Grid : public Abs_Entity {
+public:
+	explicit Grid(GLdouble l, GLuint nDiv);
+	~Grid() {};
+	virtual void render(glm::dmat4 const& modelViewMat)const;
+};
+//-------------------------------------------------------------------------
+class GridCube : public CompoundEntity {
+	GridCube(Texture* topTex, Texture* sideTex);
+	~GridCube() {};
+	virtual void render()const {};
 };
 #endif //_H_Entities_H_

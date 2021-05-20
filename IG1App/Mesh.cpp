@@ -612,6 +612,52 @@ IndexMesh* IndexMesh::generaCuboConTapasIndexado(GLdouble l)
     return m;
 }
 
+IndexMesh* IndexMesh::generateGrid(GLdouble lado, GLuint nDiv)
+{
+    IndexMesh* m = new IndexMesh();
+
+    m->mPrimitive = GL_TRIANGLES;
+
+    m->mNumVertices = (nDiv + 1) * (nDiv + 1);
+
+    m->vVertices.reserve(m->mNumVertices);
+
+    m->vColors.reserve(m->mNumVertices);
+
+    int divL = lado / nDiv; //Longitud de la division
+    //Vertices
+    for (int i = 0; i < m->mNumVertices; i++) {
+        GLdouble x = divL * (i / nDiv) - lado / 2;
+        GLdouble z = divL * (i % nDiv) - lado / 2;
+        m->vVertices.emplace_back(x, 0, z);
+    }
+    //Indices
+    m->mNumIndices = nDiv * nDiv * 2;
+
+    m->vIndices = new GLuint[m->mNumIndices]
+    { 0, 1, 3,  //Cara delantera
+     3, 2, 0,
+     2, 3, 4,   //Cara derecha
+     4, 3, 5,
+     4, 5, 6,   //Cara trasera
+     6, 5, 7,
+     6, 7, 1,   //Cara izqda
+     6, 1, 0,
+     6, 0, 4,   //Cara superior
+     4, 0, 2,
+     1, 7, 5,   //Cara inferior
+     5, 3, 1 };
+
+    m->vNormals.reserve(m->mNumVertices);
+    //Inicializa
+    for (int i = 0; i < m->mNumVertices; i++) {
+        m->vNormals.push_back(glm::dvec3(0, 0, 0));
+    }
+    //Metodo eficiente
+    m->buildNormalVectors();
+    return m;
+}
+
 
 MbR::MbR(int m, int n, dvec3* perfil) : m_(m), n_(n), perfil_(perfil) {};
 
