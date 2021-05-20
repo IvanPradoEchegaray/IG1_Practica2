@@ -12,18 +12,18 @@ class Mesh
 public:
 
 	static Mesh* createRGBAxes(GLdouble l); // creates a new 3D-RGB axes mesh
-	static Mesh* createTriangleRGB(GLdouble rd);	//creates a new Triangle mesh
-	static Mesh* generaPoligono(GLuint numL, GLdouble rd); //creates a polygon Mesh
-	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);	//creates Piersinski Mesh
+	static Mesh* generaPoligono(GLuint numL, GLdouble rd);
+	static Mesh* createTrianguloRGB();
+	static Mesh* generaSierpinski(GLdouble rd, GLuint numP);
 	static Mesh* generaRectangulo(GLdouble w, GLdouble h);
 	static Mesh* generaRectanguloRGB(GLdouble w, GLdouble h);
-	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h); //creates a "Star"3d
+	static Mesh* generaEstrella3D(GLdouble re, GLuint np, GLdouble h);
 	static Mesh* generaContCubo(GLdouble ld);
-	static Mesh* generaContCuboSuelo(GLdouble w, GLdouble h);
+	static Mesh* generaContCuboTexCor(GLdouble nl);
 	static Mesh* generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	static Mesh* generaEstrellaTexCor(GLdouble re, GLuint np, GLdouble h);
-	static Mesh* generaContCuboTexCor(GLdouble nl); 
-	static Mesh* generaContCuboSueloTexCor(GLdouble w, GLdouble h);
+	static Mesh* generaContCristal(GLdouble ld);
+	static Mesh* generaGrassTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh);
 	//Practica 2
 	static Mesh* generaPolygon3D(GLdouble re, GLuint np);
 	static Mesh* generaPolygonTexCor(GLdouble re, GLuint np);

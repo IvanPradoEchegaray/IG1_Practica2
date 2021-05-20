@@ -14,6 +14,7 @@ void Scene::init()
 
 	// Lights
 	// Textures
+	glClearColor(0.0, 0.0, 0.0, 1.0);
 	if (mId == 0) {
 		Texture* nocheTex = new Texture();
 		nocheTex->load("../Bmps/noche.bmp", 200);
@@ -133,5 +134,6 @@ void Scene::sceneDirLight(Camera const& cam) const {
 	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular)); 
 }
 //-------------------------------------------------------------------------
-
-
+void Scene::setID(int id) {
+	mId = id;
+}

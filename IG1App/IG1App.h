@@ -18,13 +18,13 @@
 
 class IG1App
 {
-public:  
+public:
 	// static single instance (singleton pattern)
 	static IG1App s_ig1app;
 
-	IG1App(IG1App const & J) = delete; // no copy constructor
-	void operator =(IG1App const & J) = delete; // no copy assignment
-	
+	IG1App(IG1App const& J) = delete; // no copy constructor
+	void operator =(IG1App const& J) = delete; // no copy assignment
+
 	// Viewport position and size
 	Viewport const& viewPort() { return *mViewPort; };
 	// Camera position, view volume and projection
@@ -34,22 +34,32 @@ public:
 
 	void run();    // the main event processing loop
 	void close();  // the application
-	int const& winWidth() { return mWinW; };
-	int const& winHeight() { return mWinH; };
+
+	//bool del bucle de animacion
+	bool animLoop = false;
+
+	int winWidth() { return mWinW; };
+	int winHeight() { return mWinH; };
+
 protected:
 
 	IG1App() {};
 	~IG1App() { close(); };
 
 	void init();
-	void update();
 	void iniWinOpenGL();
-	void free();   
- 
-	void display() const;   // the scene
+	void free();
+	void update();
+
+	void display();   // the scene
+	void display2V();
+	void display2Scenes();
 	void resize(int newWidth, int newHeight);   // the viewport (without changing the scale) 
 	void key(unsigned char key, int x, int y);  // keypress event
 	void specialKey(int key, int x, int y);     // keypress event for special characters
+	void mouse(int b, int s, int x, int y);		// Mouse events
+	void motion(int x, int y);
+	void mouseWheel(int n, int d, int x, int y);
 
 	// static callbacks 
 	static void s_display() { s_ig1app.display(); };
@@ -57,25 +67,29 @@ protected:
 	static void s_key(unsigned char key, int x, int y) { s_ig1app.key(key, x, y); };
 	static void s_specialKey(int key, int x, int y) { s_ig1app.specialKey(key, x, y); };
 	static void s_update() { s_ig1app.update(); };
+	static void s_mouse(int button, int state, int x, int y) { s_ig1app.mouse(button, state, x, y); };
+	static void s_motion(int x, int y) { s_ig1app.motion(x, y); };
+	static void s_mouseWheel(int n, int d, int x, int y) { s_ig1app.mouseWheel(n, d, x, y); };
 
 	// Viewport position and size
-	Viewport *mViewPort = nullptr;
+	Viewport* mViewPort = nullptr;
 	// Camera position, view volume and projection
-	Camera *mCamera = nullptr;
+	Camera* mCamera = nullptr;
+	Camera* mCamera2 = nullptr;
 	// Graphics objects of the scene
-	Scene *mScene = nullptr;
-	
-	bool mStop = false; // main event processing loop
-	int mWinId = 0;	    // window's identifier
-	int mWinW = 800;    // window's width 
-	int mWinH = 600;    // window's height
+	Scene* mScene = nullptr;
+	Scene* mScene2 = nullptr;
 
-	//update
-	const GLuint FRAME_RATE = 60;
-	const GLuint MILLISECS_PER_FRAME = 1000 / FRAME_RATE;
-	GLuint mLastUpdateTime;
-	//booleano de animacion
-	bool animationUpdate = false;
+	dvec2 mCoord;
+	int mBot = 0;
+	bool mStop = false;				 // main event processing loop
+	int mWinId = 0;					 // window's identifier
+	int mWinW = 800;                 // window's width 
+	int mWinH = 600;				 // window's height
+	GLuint mLastUpdateTime;			 // ultimo instante de actualiación
+	bool toggleAnimation = false;	 // activar/desactivar la animación
+	bool display2V_ = false;
+	bool display2S_ = false;
 };
 //-------------------------------------------------------------------------
 

@@ -77,35 +77,13 @@ Mesh * Mesh::createRGBAxes(GLdouble l)
   return mesh;
 }
 
-Mesh* Mesh::createTriangleRGB(GLdouble rd) //Creacion de una malla que se llamara en su entidad correspondiente
-{
-    /*Triangulo RGB comentado porque tiene muchas notas utiles
-    //Crea una nueva malla vacia
-    Mesh* mesh = new Mesh();
-    //Le dice a la malla que se rellene siguiendo el GL asignado, Point, Lines, Polygon...
-    //NOTA: DEPENDE DE LA MALLA PRIMITIVA se crearan v/n mallas, sienddo v la cantidad de vertices asignados y n la cantidad minima de vertices necesarios para crear la malla,
-    //ignorando el resto de la division
-    mesh->mPrimitive = GL_TRIANGLES;
-    //Vertices de la malla
-    mesh->mNumVertices = 3; //En este caso se crearan -> mNumVertices/3 vertices necesarios para malla triangulo = 1
-    //Se reserva en el vector vertices un n de espacios igual al de vertices, todo vertice con indice mayor a mNumVerices, no se mostrara
-    mesh->vVertices.reserve(mesh->mNumVertices);
-    mesh->vVertices.emplace_back(0.0, 50.0, 0.0);
-    mesh->vVertices.emplace_back(-50.0, -25.0, 0.0);
-    mesh->vVertices.emplace_back(50.0, -25.0, 0.0);
-    mesh->vVertices.emplace_back(0.0, 50.0, 20.0);  //Ignorado
-    //Se reserva la cantidad de colores igual al numero de vertices, todo vertice con indice mayor a mNumVerices, no se coloreara (con emplaceback())
-    mesh->vColors.reserve(mesh->mNumVertices);
-    mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
-    mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
-    mesh->vColors.emplace_back(0.0, 0.0, 1.0, 1.0);
-    mesh->vColors.emplace_back(0.0, 0.0, 0.0, 1.0); //Ignorado
+Mesh* Mesh::createTrianguloRGB() {
+    Mesh* mesh = generaPoligono(3, 30);
 
-    return mesh;*/
-
-    //TrianguloRGB ejercicio
-    Mesh* mesh = generaPoligono(3, rd);
     mesh->mPrimitive = GL_TRIANGLES;
+
+    mesh->mNumVertices = 3;
+
     mesh->vColors.reserve(mesh->mNumVertices);
     mesh->vColors.emplace_back(1.0, 0.0, 0.0, 1.0);
     mesh->vColors.emplace_back(0.0, 1.0, 0.0, 1.0);
@@ -265,34 +243,6 @@ Mesh* Mesh::generaContCubo(GLdouble ld)
 
     return mesh;
 }
-Mesh* Mesh::generaContCuboSuelo(GLdouble w, GLdouble h)
-{
-    Mesh* mesh = new Mesh();
-    //primitiva
-    mesh->mPrimitive = GL_TRIANGLE_STRIP;
-    //vertices
-    mesh->mNumVertices = 10;
-    mesh->vVertices.reserve(mesh->mNumVertices);
-
-    //10 vertices del cubo
-    mesh->vVertices.emplace_back(0, h, w); //v0
-    mesh->vVertices.emplace_back(0, 0, w); //v1
-
-    mesh->vVertices.emplace_back(w, h, w); //v2
-    mesh->vVertices.emplace_back(w, 0, w); //v3
-
-    mesh->vVertices.emplace_back(w, h, 0); //v4
-    mesh->vVertices.emplace_back(w, 0, 0); //v5
-
-    mesh->vVertices.emplace_back(0, h, 0); //v6
-    mesh->vVertices.emplace_back(0, 0, 0); //v7
-
-    mesh->vVertices.emplace_back(mesh->vVertices[0]); //v8
-    mesh->vVertices.emplace_back(mesh->vVertices[1]); //v9
-
-
-    return mesh;
-}
 
 Mesh* Mesh::generaRectanguloTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
 {
@@ -351,29 +301,6 @@ Mesh* Mesh::generaContCuboTexCor(GLdouble nl)
     return mesh;
 }
 
-Mesh* Mesh::generaContCuboSueloTexCor(GLdouble w, GLdouble h)
-{
-    Mesh* mesh = generaContCuboSuelo(w,h);
-    mesh->vTexCoords.reserve(mesh->mNumVertices);
-    //10 vertices de la textura
-    mesh->vTexCoords.emplace_back(0, 1.0f);
-    mesh->vTexCoords.emplace_back(0, 0);
-    //1a cara
-    mesh->vTexCoords.emplace_back(1.0f, 1.0f);
-    mesh->vTexCoords.emplace_back(1.0f, 0);
-    //2a cara
-    mesh->vTexCoords.emplace_back(0, 1.0f);
-    mesh->vTexCoords.emplace_back(0, 0);
-    //3a cara
-    mesh->vTexCoords.emplace_back(1.0f, 1.0f);
-    mesh->vTexCoords.emplace_back(1.0f, 0);
-    //4a cara
-    mesh->vTexCoords.emplace_back(mesh->vTexCoords[0]);
-    mesh->vTexCoords.emplace_back(mesh->vTexCoords[1]);
-
-    return mesh;
-}
-
 Mesh* Mesh::generaPolygon3D(GLdouble re, GLuint np)
 {
     Mesh* mesh = new Mesh();
@@ -422,7 +349,89 @@ Mesh* Mesh::generaPolygonTexCor(GLdouble re, GLuint np)
 
     return mesh;
 }
+Mesh* Mesh::generaGrassTexCor(GLdouble w, GLdouble h, GLuint rw, GLuint rh)
+{
+    Mesh* mesh = new Mesh();
 
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = 4;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    mesh->vVertices.emplace_back(0, h, 0.0); //v0
+    mesh->vVertices.emplace_back(0, 0, 0.0); //v1
+    mesh->vVertices.emplace_back(w, h, 0.0); //v2
+    mesh->vVertices.emplace_back(w, 0, 0.0); //v3
+
+    //Coordenadas de texturas
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+    mesh->vTexCoords.emplace_back(0, 1.0 * rh);
+    mesh->vTexCoords.emplace_back(0, 0);
+    mesh->vTexCoords.emplace_back(1.0 * rw, 1.0 * rh);
+    mesh->vTexCoords.emplace_back(1.0 * rw, 0);
+
+    return mesh;
+}
+
+Mesh* Mesh::generaContCristal(GLdouble ld)
+{
+    Mesh* mesh = new Mesh();
+
+    mesh->mPrimitive = GL_TRIANGLE_STRIP;
+    mesh->mNumVertices = 10;
+    mesh->vVertices.reserve(mesh->mNumVertices);
+
+    //V0
+    mesh->vVertices.emplace_back(dvec3(-ld / 2.0, ld / 6.0, ld / 2.0));
+
+    //V1
+    mesh->vVertices.emplace_back(dvec3(-ld / 2.0, -ld / 6.0, ld / 2.0));
+    //V2
+    mesh->vVertices.emplace_back(dvec3(ld / 2.0, ld / 6.0, ld / 2.0));
+    //V3
+    mesh->vVertices.emplace_back(dvec3(ld / 2.0, -ld / 6.0, ld / 2.0));
+    //V4
+    mesh->vVertices.emplace_back(dvec3(ld / 2.0, ld / 6.0, -ld / 2.0));
+    //V5
+    mesh->vVertices.emplace_back(dvec3(ld / 2.0, -ld / 6.0, -ld / 2.0));
+    //V6
+    mesh->vVertices.emplace_back(dvec3(-ld / 2.0, ld / 6.0, -ld / 2.0));
+    //V7
+    mesh->vVertices.emplace_back(dvec3(-ld / 2.0, -ld / 6.0, -ld / 2.0));
+
+    //2 para cerrar
+    mesh->vVertices.emplace_back(dvec3(-ld / 2.0, ld / 6.0, ld / 2.0));
+    mesh->vVertices.emplace_back(dvec3(-ld / 2.0, -ld / 6.0, ld / 2.0));
+
+
+    mesh->vTexCoords.reserve(mesh->mNumVertices);
+
+    //V0
+    mesh->vTexCoords.emplace_back(0, 1);
+
+    //V1
+    mesh->vTexCoords.emplace_back(0, 0);
+    //V2
+    mesh->vTexCoords.emplace_back(1, 1);
+    //V3
+    mesh->vTexCoords.emplace_back(1, 0);
+    //V4
+    mesh->vTexCoords.emplace_back(2, 1);
+    //V5
+    mesh->vTexCoords.emplace_back(2, 0);
+    //V6
+    mesh->vTexCoords.emplace_back(3, 1);
+    //V7
+    mesh->vTexCoords.emplace_back(3, 0);
+    //V8
+    mesh->vTexCoords.emplace_back(4, 1);
+    mesh->vTexCoords.emplace_back(4, 0);
+
+    //2 mas para cerrar
+    mesh->vTexCoords.emplace_back(0, 1);
+    mesh->vTexCoords.emplace_back(0, 0);
+
+    return mesh;
+}
 //---Mesh Index--
 void IndexMesh::render() const
 {

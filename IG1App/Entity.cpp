@@ -398,6 +398,29 @@ void Grass::render(glm::dmat4 const& modelViewMat) const
 		}
 	}
 }
+Cristalera::Cristalera(GLdouble ld) {
+	mMesh = Mesh::generaContCristal(ld);
+}
+
+Cristalera::~Cristalera() {
+	delete mMesh; mMesh = nullptr;
+}
+
+void Cristalera::render(glm::dmat4 const& modelViewMat) const {
+	if (mMesh != nullptr) {
+		dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
+		upload(aMat);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		mTexture->bind(GL_REPLACE);
+		mMesh->render();
+		mTexture->unbind();
+
+		glDisable(GL_BLEND);
+	}
+}
 #pragma endregion
 //-------------------------------------------------------------------------
 //Practica 2

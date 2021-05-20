@@ -23,22 +23,18 @@ public:
 
 	Scene(const Scene& s) = delete;  // no copy constructor
 	Scene& operator=(const Scene& s) = delete;  // no copy assignment
-		
+
 	void init();
-
-    void render(Camera const& cam) const;
-
+	void render(Camera const& cam) const;
 	void update();
 
+	int mId = 0;
 	void changeScene(int id);
-
 	void screenShot();
-
+	void setID(int id);
 	void sceneDirLight(Camera const& cam) const;
 
-
 protected:
-	int mId = 0;
 	void free();
 	void setGL();
 	void resetGL();
