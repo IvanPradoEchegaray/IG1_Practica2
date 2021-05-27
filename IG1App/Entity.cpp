@@ -687,7 +687,7 @@ void Grid::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
-	mTexture->bind(GL_REPEAT);
+	mTexture->bind(GL_MODULATE);
 	iMesh->render();
 	mTexture->unbind();
 }

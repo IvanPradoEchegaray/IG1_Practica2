@@ -35,11 +35,11 @@ public:
 class PosLight : public Light {
 protected:
 	// Factores de atenuación
-	GLfloat kc = 1, kl = 0, kq = 0;
+	GLfloat kc_ = 1, kl_ = 0, kq_ = 0;
 public:
 	virtual void upload(glm::dmat4 const& modelViewMat) const;
 	void setPosDir(glm::fvec3 dir);
-	void setAtte(GLfloat kc, GLfloat kl, GLfloat kac);
+	void setAtte(GLfloat kc, GLfloat kl, GLfloat kq);
 };
 
 class SpotLight : public PosLight {

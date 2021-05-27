@@ -12,7 +12,7 @@ void Scene::init()
 	setGL();  // OpenGL settings
 	// allocate memory and load resources
 
-	// Lights
+	//Lights
 	setLights();
 
 	// Textures
@@ -86,7 +86,7 @@ void Scene::init()
 		// Graphics objects (entities) of the scene
 		gObjects.push_back(new EjesRGB(1000.0));
 		//Sphere
-		Esfera* planeta = new Esfera(400, 20, 300);
+		Esfera* planeta = new Esfera(400, 300, 300);
 		planeta->setMaterial(mat);
 		gObjects.push_back(planeta);
 		////TIE-FIGHTER
@@ -156,16 +156,25 @@ void Scene::resetGL()
 	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
-void Scene::setLights()
-{
+void Scene::setLights() {
+	glEnable(GL_LIGHTING);
 
+	dirLight->setPosDir(fvec3(1, 1, 1));
+	posLight->setPosDir(fvec3(300, 300, 300));
+	spotLight->setPosDir(fvec3(0, 1, 1000));
+
+	posLight->setAtte(0.4, 0.0, 0.0);
+	spotLight->setSpot(fvec3(0, 0, -1), 5.0, 180.0);
 }
 //-------------------------------------------------------------------------
 void Scene::render(Camera const& cam) const 
 {
 	//Luz de la escena
 	//sceneDirLight(cam);
-	
+	dirLight->upload(cam.viewMat());
+	posLight->upload(cam.viewMat());
+	spotLight->upload(cam.viewMat());
+
 	//Actualiza la/s camaras
 	cam.upload();
 

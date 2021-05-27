@@ -175,17 +175,8 @@ void IG1App::key(unsigned char key, int x, int y)
 	switch (key) {
 	case 27:  // Escape key 
 		glutLeaveMainLoop();  // stops main loop and destroy the OpenGL context
-	case 'a':
-		mCamera->orbit(+5.0, 0.0);	// Counter-clockwise horizontal orbit
-		break;
 	case 'd':
 		mCamera->orbit(-5.0, 0.0); // Clockwise horizontal orbit
-		break;
-	case 'e':
-		mCamera->orbit(0.0, +80.0);	// Ascending vertical orbit
-		break;
-	case 's':
-		mCamera->orbit(0.0, -80.0); // Descending vertical orbit
 		break;
 	case '+':
 		mCamera->setScale(+0.01);  // zoom in  (increases the scale)
@@ -199,6 +190,34 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'w':
 		mScene->dirLight->disable();
 		break;
+	case 'a':
+		mScene->posLight->enable();
+		break;
+	case 's':
+		mScene->posLight->disable();
+		break;
+	case 'z':
+		mScene->spotLight->enable();
+		break;
+	case 'x':
+		mScene->spotLight->disable();
+		break;
+	case 'e': {
+		GLfloat amb[] = { 0.0, 0.0, 0.0, 1.0 };
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+		mScene->spotLight->disable();
+		mScene->posLight->disable();
+		mScene->dirLight->disable();
+		break; 
+	}
+	case 'r': {
+		GLfloat amb[] = { 0.5, 0.5, 0.5, 1.0 };
+		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, amb);
+		mScene->spotLight->enable();
+		mScene->posLight->enable();
+		mScene->dirLight->enable();
+		break;
+	}
 	case 'k':
 		display2V_ = !display2V_;  // toggles 2 viewport display
 		break;

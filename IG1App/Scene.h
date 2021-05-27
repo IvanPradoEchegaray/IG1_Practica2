@@ -29,7 +29,6 @@ public:
 	void render(Camera const& cam) const;
 	void update();
 
-	DirLight* dirLight = new DirLight();
 	int mId = 0;
 	void changeScene(int id);
 	void screenShot();
@@ -38,6 +37,10 @@ public:
 	void orbita();
 	void rota();
 
+	
+	DirLight* dirLight = new DirLight();
+	PosLight* posLight = new PosLight();
+	SpotLight* spotLight = new SpotLight();
 protected:
 	void free();
 	void setGL();
