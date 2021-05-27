@@ -13,7 +13,10 @@ void Scene::init()
 	// allocate memory and load resources
 
 	//Lights
-	setLights();
+	if (!IG1App::s_ig1app.lightsCreated()) {
+		setLights();
+		IG1App::s_ig1app.setLightsCreated(true);
+	}
 
 	// Textures
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -75,10 +78,16 @@ void Scene::init()
 		gObjects.push_back(cube);
 	}
 	else if (mId == 5) {
+		//Lights
+		tieFighterL1 = new SpotLight();
+		tieFighterL2 = new SpotLight();
+		tieFighterL3 = new SpotLight();
+
 		//Texturas
 		Texture* nocheTex = new Texture();
 		nocheTex->load("../Bmps/noche.bmp", 200);
 		gTextures.push_back(nocheTex);
+		
 		//Materiales
 		Material* mat = new Material();
 		mat->setCopper();
@@ -89,19 +98,47 @@ void Scene::init()
 		Esfera* planeta = new Esfera(400, 300, 300);
 		planeta->setMaterial(mat);
 		gObjects.push_back(planeta);
-		////TIE-FIGHTER
+		////TIE-FIGHTERs
+		//Caza1
 		CompoundEntity* flota = new CompoundEntity();
+		//Luz caza 1
 		TieFighter* tie_fighter1 = new TieFighter(nocheTex);
 		tie_fighter1->setModelMat(scale(dmat4(1), dvec3(0.1, 0.1, 0.1)));
 		flota->addEntity(tie_fighter1);
+		tieFighterL1->setPosDir(dvec3(0, 420, 0));
+		tieFighterL1->setAmb(fvec4(0, 0, 0, 1));
+		tieFighterL1->setDiff(fvec4(1, 1, 1, 1));
+		tieFighterL1->setSpec(fvec4(0.5, 0.5, 0.5, 1));
+		tieFighterL1->setSpot(fvec3(0.0, -1.0, 0.0), 1.0, 100.0);
+		flota->addLight(tieFighterL1);
+
+		//Caza2
 		TieFighter* tie_fighter2 = new TieFighter(nocheTex);
 		tie_fighter2->setModelMat(translate(dmat4(1), dvec3(20, 0, -40)));
 		tie_fighter2->setModelMat(scale(tie_fighter2->modelMat(), dvec3(0.1, 0.1, 0.1)));
 		flota->addEntity(tie_fighter2);
+		//Luz caza 2
+		tieFighterL2->setPosDir(dvec3(20, 420, -40));
+		tieFighterL2->setAmb(fvec4(0, 0, 0, 1));
+		tieFighterL2->setDiff(fvec4(1, 1, 1, 1));
+		tieFighterL2->setSpec(fvec4(0.5, 0.5, 0.5, 1));
+		tieFighterL2->setSpot(fvec3(0.0, -1.0, 0.0), 1.0, 100.0);
+		flota->addLight(tieFighterL2);
+
+		//Caza3
 		TieFighter* tie_fighter3 = new TieFighter(nocheTex);
 		tie_fighter3->setModelMat(translate(dmat4(1), dvec3(20, 0, 40)));
 		tie_fighter3->setModelMat(scale(tie_fighter3->modelMat(), dvec3(0.1, 0.1, 0.1)));
 		flota->addEntity(tie_fighter3);
+		//Luz caza 3
+		tieFighterL3->setPosDir(dvec3(20, 420, 40));
+		tieFighterL3->setAmb(fvec4(1, 1, 0, 1));
+		tieFighterL3->setDiff(fvec4(1, 1, 1, 1));
+		tieFighterL3->setSpec(fvec4(0.5, 0.5, 0.5, 1));
+		tieFighterL3->setSpot(fvec3(0.0, -1.0, 0.0), 1.0, 100.0);
+		flota->addLight(tieFighterL3);
+
+		//Flota translate
 		flota->setModelMat(translate(dmat4(1), dvec3(0, 420.0, 0)));
 		gObjects.push_back(flota);
 		
@@ -158,6 +195,9 @@ void Scene::resetGL()
 //-------------------------------------------------------------------------
 void Scene::setLights() {
 	glEnable(GL_LIGHTING);
+	dirLight = new DirLight();
+	posLight = new PosLight();
+	spotLight = new SpotLight();
 
 	dirLight->setPosDir(fvec3(1, 1, 1));
 	posLight->setPosDir(fvec3(300, 300, 300));
@@ -210,6 +250,18 @@ void Scene::orbita()
 void Scene::rota()
 {
 	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(5.0), dvec3(0, 1, 0)));
+}
+void Scene::TIELightsOn()
+{
+	tieFighterL1->enable();
+	tieFighterL2->enable();
+	tieFighterL3->enable();
+}
+void Scene::TIELightsOff()
+{
+	tieFighterL1->disable();
+	tieFighterL2->disable();
+	tieFighterL3->disable();
 }
 //-------------------------------------------------------------------------
 void Scene::setID(int id) {

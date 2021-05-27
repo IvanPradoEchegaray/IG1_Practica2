@@ -218,6 +218,16 @@ void IG1App::key(unsigned char key, int x, int y)
 		mScene->dirLight->enable();
 		break;
 	}
+	case 't':
+		if (mScene->mId == 5) {
+			mScene->TIELightsOn();
+		}
+		break;
+	case 'g':
+		if (mScene->mId == 5) {
+			mScene->TIELightsOff();
+		}
+		break;
 	case 'k':
 		display2V_ = !display2V_;  // toggles 2 viewport display
 		break;

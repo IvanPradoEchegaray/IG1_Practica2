@@ -36,11 +36,16 @@ public:
 	void sceneDirLight(Camera const& cam) const;
 	void orbita();
 	void rota();
+	void TIELightsOn();
+	void TIELightsOff();
 
+	DirLight* dirLight;
+	PosLight* posLight;
+	SpotLight* spotLight;
 	
-	DirLight* dirLight = new DirLight();
-	PosLight* posLight = new PosLight();
-	SpotLight* spotLight = new SpotLight();
+	SpotLight* tieFighterL1;
+	SpotLight* tieFighterL2;
+	SpotLight* tieFighterL3;
 protected:
 	void free();
 	void setGL();

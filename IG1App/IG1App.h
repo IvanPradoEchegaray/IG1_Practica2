@@ -41,6 +41,9 @@ public:
 	int winWidth() { return mWinW; };
 	int winHeight() { return mWinH; };
 
+	bool lightsCreated() { return lightsCreated_; };
+	void setLightsCreated(bool state) { lightsCreated_ = state; };
+
 protected:
 
 	IG1App() {};
@@ -90,6 +93,7 @@ protected:
 	bool toggleAnimation = false;	 // activar/desactivar la animación
 	bool display2V_ = false;
 	bool display2S_ = false;
+	bool lightsCreated_ = false;
 };
 //-------------------------------------------------------------------------
 

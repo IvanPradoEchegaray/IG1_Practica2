@@ -563,6 +563,10 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;
 	upload(aMat);
+	for (Light* l : gLights)
+	{
+		l->upload(aMat);
+	}
 	for (Abs_Entity* el : gObjects)
 	{
 		el->render(aMat);
@@ -572,6 +576,11 @@ void CompoundEntity::render(glm::dmat4 const& modelViewMat) const
 void CompoundEntity::addEntity(Abs_Entity* ae)
 {
 	gObjects.push_back(ae);
+}
+
+void CompoundEntity::addLight(Light* light)
+{
+	gLights.push_back(light);
 }
 
 TieFighter::TieFighter(Texture* tex_)

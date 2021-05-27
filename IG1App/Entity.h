@@ -8,6 +8,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Material.h"
+#include "Light.h"
 //-------------------------------------------------------------------------
 class IG1App;
 class Abs_Entity  // abstract class
@@ -277,16 +278,16 @@ public:
 	~CompoundEntity();
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 	void addEntity(Abs_Entity* ae);
+	void addLight(Light* light);
 private:
 	std::vector<Abs_Entity*> gObjects;
-
+	std::vector<Light*> gLights;
 };
 //-------------------------------------------------------------------------
 class TieFighter : public CompoundEntity {
 public:
 	TieFighter(Texture* tex_);
 	~TieFighter() {};
-	virtual void render()const {};
 };
 //-------------------------------------------------------------------------
 class Cono : public Abs_Entity {
