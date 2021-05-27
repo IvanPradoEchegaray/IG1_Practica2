@@ -181,7 +181,7 @@ void IG1App::key(unsigned char key, int x, int y)
 	case 'd':
 		mCamera->orbit(-5.0, 0.0); // Clockwise horizontal orbit
 		break;
-	case 'w':
+	case 'e':
 		mCamera->orbit(0.0, +80.0);	// Ascending vertical orbit
 		break;
 	case 's':
@@ -193,11 +193,18 @@ void IG1App::key(unsigned char key, int x, int y)
 	case '-':
 		mCamera->setScale(-0.01);  // zoom out (decreases the scale)
 		break;
+	case 'q':
+		mScene->dirLight->enable();
+		break;
+	case 'w':
+		mScene->dirLight->disable();
+		break;
 	case 'k':
 		display2V_ = !display2V_;  // toggles 2 viewport display
 		break;
 	case 'j':
 		display2S_ = !display2S_;
+		break;
 	case 'p':
 		mCamera->changePrj();	//toggles between orthogonal and perspective view
 		break;

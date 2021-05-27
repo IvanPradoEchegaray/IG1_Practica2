@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "Entity.h"
 #include "Texture.h"
+#include "Light.h"
 
 #include <vector>
 
@@ -28,6 +29,7 @@ public:
 	void render(Camera const& cam) const;
 	void update();
 
+	DirLight* dirLight = new DirLight();
 	int mId = 0;
 	void changeScene(int id);
 	void screenShot();

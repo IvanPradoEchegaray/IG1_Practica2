@@ -158,7 +158,8 @@ void Scene::resetGL()
 void Scene::render(Camera const& cam) const 
 {
 	//Luz de la escena
-	sceneDirLight(cam);
+	//sceneDirLight(cam);
+	
 	//Actualiza la/s camaras
 	cam.upload();
 
