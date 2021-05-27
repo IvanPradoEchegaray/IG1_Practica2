@@ -198,12 +198,13 @@ protected:
 class Sphere :public QuadricEntity
 {
 public:
-	explicit Sphere(GLdouble radius) : r(radius) {};
+	explicit Sphere(GLdouble radius, glm::dvec3 color) : r(radius), color_(color) {};
 	~Sphere() {};
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 	virtual void update() {};
 protected:
 	GLdouble r;
+	glm::dvec3 color_;
 };
 //-------------------------------------------------------------------------
 class Cylinder : public QuadricEntity

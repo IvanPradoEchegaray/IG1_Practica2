@@ -26,7 +26,7 @@ void Scene::init()
 		TieFighter* tie_fighter = new TieFighter(nocheTex);
 		gObjects.push_back(tie_fighter);
 	}
-	if (mId == 1) {
+	else if (mId == 1) {
 		glClearColor(0.5, 0.7, 1.0, 1.0);
 		//Ejes de coordenadas
 		gObjects.push_back(new EjesRGB(400.0));
@@ -35,7 +35,7 @@ void Scene::init()
 	    gObjects.push_back(cuadrado);
 
 	}
-	if (mId == 2)
+	else if (mId == 2)
 	{
 		glClearColor(0.5, 0.5, 0.5, 1.0);
 		gObjects.push_back(new EjesRGB(400.0));
@@ -43,19 +43,19 @@ void Scene::init()
 		Cubo* cubo = new Cubo(50);
 		gObjects.push_back(cubo);
 	}
-	if (mId == 3) {
+	else if (mId == 3) {
 		glClearColor(0.8, 0.5, 0.5, 1.0);
 		//Ejes de coordenadas
 		gObjects.push_back(new EjesRGB(400.0));
 		//Sphere
-		Sphere* sphere = new Sphere(25);
+		Sphere* sphere = new Sphere(25, dvec3(0.15, 0.28, 0.59));
 		sphere->setModelMat(translate(dmat4(1), dvec3(75.0, 0.0, 0.0)));
 		gObjects.push_back(sphere);
 		//Esfera
 		Esfera* esfera = new Esfera(25, 8, 50);
 		gObjects.push_back(esfera);
 	}
-	if (mId == 4)
+	else if (mId == 4)
 	{
 		glClearColor(0.5, 0.8, 0.5, 1.0);
 		Texture* top_bot_tex = new Texture();
@@ -71,6 +71,32 @@ void Scene::init()
 		//Cubo
 		GridCube* cube = new GridCube(200.0, 10, top_bot_tex, side_tex);
 		gObjects.push_back(cube);
+	}
+	else if (mId == 5) {
+		Texture* nocheTex = new Texture();
+		nocheTex->load("../Bmps/noche.bmp", 200);
+		gTextures.push_back(nocheTex);
+		// Graphics objects (entities) of the scene
+		gObjects.push_back(new EjesRGB(1000.0));
+		//Sphere
+		Sphere* sphere = new Sphere(800, dvec3(0,0.9,0.9));
+		gObjects.push_back(sphere);
+		////TIE-FIGHTER
+		CompoundEntity* flota = new CompoundEntity();
+		TieFighter* tie_fighter1 = new TieFighter(nocheTex);
+		tie_fighter1->setModelMat(scale(dmat4(1), dvec3(0.5, 0.5, 0.5)));
+		flota->addEntity(tie_fighter1);
+		TieFighter* tie_fighter2 = new TieFighter(nocheTex);
+		tie_fighter2->setModelMat(translate(dmat4(1), dvec3(100, 0, -150)));
+		tie_fighter2->setModelMat(scale(tie_fighter2->modelMat(), dvec3(0.5, 0.5, 0.5)));
+		flota->addEntity(tie_fighter2);
+		TieFighter* tie_fighter3 = new TieFighter(nocheTex);
+		tie_fighter3->setModelMat(translate(dmat4(1), dvec3(100, 0, 150)));
+		tie_fighter3->setModelMat(scale(tie_fighter3->modelMat(), dvec3(0.5, 0.5, 0.5)));
+		flota->addEntity(tie_fighter3);
+		flota->setModelMat(translate(dmat4(1), dvec3(0, 900.0, 0)));
+		gObjects.push_back(flota);
+		
 	}
 }
 
