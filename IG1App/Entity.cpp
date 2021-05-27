@@ -663,17 +663,17 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 {
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
-	//Color
+	//Material
 	if (material != nullptr)
 		material->upload();
-	else {
+	else
 		glEnable(GL_COLOR_MATERIAL);
-		glColor3f(0.0, 0.9, 0.9);
-	}
+	//Color
+	glColor3f(0.0, 0.9, 0.9);
 	mMesh->render();
 	//Reset
+	glColor3f(1.0, 1.0, 1.0);
 	if (material == nullptr) {
-		glColor3f(1.0, 1.0, 1.0);
 		glDisable(GL_COLOR_MATERIAL);
 	}
 }

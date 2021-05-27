@@ -73,14 +73,20 @@ void Scene::init()
 		gObjects.push_back(cube);
 	}
 	else if (mId == 5) {
+		//Texturas
 		Texture* nocheTex = new Texture();
 		nocheTex->load("../Bmps/noche.bmp", 200);
 		gTextures.push_back(nocheTex);
+		//Materials
+		Material* mat = new Material();
+		mat->setCopper();
+
 		// Graphics objects (entities) of the scene
 		gObjects.push_back(new EjesRGB(1000.0));
 		//Sphere
-		Esfera* sphere = new Esfera(800, 20, 300);
-		gObjects.push_back(sphere);
+		Esfera* planeta = new Esfera(800, 20, 300);
+		planeta->setMaterial(mat);
+		gObjects.push_back(planeta);
 		////TIE-FIGHTER
 		CompoundEntity* flota = new CompoundEntity();
 		TieFighter* tie_fighter1 = new TieFighter(nocheTex);
