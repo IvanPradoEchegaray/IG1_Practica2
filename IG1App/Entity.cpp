@@ -419,7 +419,7 @@ void Sphere::render(glm::dmat4 const& modelViewMat) const
 	upload(aMat);
 	//Color
 	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(color_.x, color_.y, color_.z);
+	glColor3f(0.15, 0.28, 0.59);
 	//Dibujado
 	gluQuadricDrawStyle(q, GLU_FILL);
 	gluSphere(q, r, slices_, stacks_);
@@ -577,7 +577,7 @@ void CompoundEntity::addEntity(Abs_Entity* ae)
 TieFighter::TieFighter(Texture* tex_)
 {
 	//--CORE--
-	Sphere* core = new Sphere(50.0, dvec3(0.15, 0.28, 0.59));
+	Sphere* core = new Sphere(50.0);
 	//--FRONT--
 	//Cilindro Ancho
 	Cylinder* c = new Cylinder(35.0, 35.0, 20.0);
@@ -664,12 +664,18 @@ void Esfera::render(glm::dmat4 const& modelViewMat) const
 	dmat4 aMat = modelViewMat * mModelMat;  // glm matrix multiplication
 	upload(aMat);
 	//Color
-	glEnable(GL_COLOR_MATERIAL);
-	glColor3f(0.15, 0.28, 0.59);
+	if (material != nullptr)
+		material->upload();
+	else {
+		glEnable(GL_COLOR_MATERIAL);
+		glColor3f(0.0, 0.9, 0.9);
+	}
 	mMesh->render();
 	//Reset
-	glColor3f(1.0, 1.0, 1.0);
-	glDisable(GL_COLOR_MATERIAL);
+	if (material == nullptr) {
+		glColor3f(1.0, 1.0, 1.0);
+		glDisable(GL_COLOR_MATERIAL);
+	}
 }
 
 Grid::Grid(GLdouble l, GLuint nDiv)

@@ -7,6 +7,7 @@
 
 #include "Mesh.h"
 #include "Texture.h"
+#include "Material.h"
 //-------------------------------------------------------------------------
 class IG1App;
 class Abs_Entity  // abstract class
@@ -198,13 +199,12 @@ protected:
 class Sphere :public QuadricEntity
 {
 public:
-	explicit Sphere(GLdouble radius, glm::dvec3 color) : r(radius), color_(color) {};
+	explicit Sphere(GLdouble radius) : r(radius) {};
 	~Sphere() {};
 	virtual void render(glm::dmat4 const& modelViewMat)const;
 	virtual void update() {};
 protected:
 	GLdouble r;
-	glm::dvec3 color_;
 };
 //-------------------------------------------------------------------------
 class Cylinder : public QuadricEntity
@@ -300,7 +300,16 @@ private:
 	GLdouble n_;
 };
 //-------------------------------------------------------------------------
-class Esfera : public Abs_Entity {
+class EntityWithMaterial : public Abs_Entity {
+public:
+	EntityWithMaterial() : Abs_Entity() {};
+	~EntityWithMaterial() {};
+	void setMaterial(Material* matl) { material = matl; };
+protected:
+	Material* material = nullptr;
+};
+//-------------------------------------------------------------------------
+class Esfera : public EntityWithMaterial {
 public:
 	explicit Esfera(GLdouble r, GLdouble p, GLint m);
 	~Esfera() {};

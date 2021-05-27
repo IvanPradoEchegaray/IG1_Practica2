@@ -48,7 +48,7 @@ void Scene::init()
 		//Ejes de coordenadas
 		gObjects.push_back(new EjesRGB(400.0));
 		//Sphere
-		Sphere* sphere = new Sphere(25, dvec3(0.15, 0.28, 0.59));
+		Sphere* sphere = new Sphere(25);
 		sphere->setModelMat(translate(dmat4(1), dvec3(75.0, 0.0, 0.0)));
 		gObjects.push_back(sphere);
 		//Esfera
@@ -79,7 +79,7 @@ void Scene::init()
 		// Graphics objects (entities) of the scene
 		gObjects.push_back(new EjesRGB(1000.0));
 		//Sphere
-		Sphere* sphere = new Sphere(800, dvec3(0,0.9,0.9));
+		Esfera* sphere = new Esfera(800, 20, 300);
 		gObjects.push_back(sphere);
 		////TIE-FIGHTER
 		CompoundEntity* flota = new CompoundEntity();
