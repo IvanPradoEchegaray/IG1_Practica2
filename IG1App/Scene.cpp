@@ -13,6 +13,7 @@ void Scene::init()
 	// allocate memory and load resources
 
 	// Lights
+	setLights();
 
 	// Textures
 	glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -155,7 +156,11 @@ void Scene::resetGL()
 	glDisable(GL_TEXTURE_2D);
 }
 //-------------------------------------------------------------------------
+void Scene::setLights()
+{
 
+}
+//-------------------------------------------------------------------------
 void Scene::render(Camera const& cam) const 
 {
 	//Luz de la escena
