@@ -78,8 +78,8 @@ void Scene::init()
 		nocheTex->load("../Bmps/noche.bmp", 200);
 		gTextures.push_back(nocheTex);
 		//Materiales
-		Material* material = new Material();
-		material->setCopper();
+		Material* mat = new Material();
+		mat->setCopper();
 
 		// Graphics objects (entities) of the scene
 		gObjects.push_back(new EjesRGB(1000.0));

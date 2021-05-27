@@ -33,6 +33,8 @@ public:
 	void screenShot();
 	void setID(int id);
 	void sceneDirLight(Camera const& cam) const;
+	void orbita();
+	void rota();
 
 protected:
 	void free();
