@@ -85,23 +85,23 @@ void Scene::init()
 		// Graphics objects (entities) of the scene
 		gObjects.push_back(new EjesRGB(1000.0));
 		//Sphere
-		Esfera* planeta = new Esfera(800, 20, 300);
+		Esfera* planeta = new Esfera(400, 20, 300);
 		planeta->setMaterial(mat);
 		gObjects.push_back(planeta);
 		////TIE-FIGHTER
 		CompoundEntity* flota = new CompoundEntity();
 		TieFighter* tie_fighter1 = new TieFighter(nocheTex);
-		tie_fighter1->setModelMat(scale(dmat4(1), dvec3(0.5, 0.5, 0.5)));
+		tie_fighter1->setModelMat(scale(dmat4(1), dvec3(0.1, 0.1, 0.1)));
 		flota->addEntity(tie_fighter1);
 		TieFighter* tie_fighter2 = new TieFighter(nocheTex);
-		tie_fighter2->setModelMat(translate(dmat4(1), dvec3(100, 0, -150)));
-		tie_fighter2->setModelMat(scale(tie_fighter2->modelMat(), dvec3(0.5, 0.5, 0.5)));
+		tie_fighter2->setModelMat(translate(dmat4(1), dvec3(20, 0, -40)));
+		tie_fighter2->setModelMat(scale(tie_fighter2->modelMat(), dvec3(0.1, 0.1, 0.1)));
 		flota->addEntity(tie_fighter2);
 		TieFighter* tie_fighter3 = new TieFighter(nocheTex);
-		tie_fighter3->setModelMat(translate(dmat4(1), dvec3(100, 0, 150)));
-		tie_fighter3->setModelMat(scale(tie_fighter3->modelMat(), dvec3(0.5, 0.5, 0.5)));
+		tie_fighter3->setModelMat(translate(dmat4(1), dvec3(20, 0, 40)));
+		tie_fighter3->setModelMat(scale(tie_fighter3->modelMat(), dvec3(0.1, 0.1, 0.1)));
 		flota->addEntity(tie_fighter3);
-		flota->setModelMat(translate(dmat4(1), dvec3(0, 900.0, 0)));
+		flota->setModelMat(translate(dmat4(1), dvec3(0, 420.0, 0)));
 		gObjects.push_back(flota);
 		
 	}
@@ -186,9 +186,16 @@ void Scene::sceneDirLight(Camera const& cam) const {
 }
 void Scene::orbita()
 {
+	//Devolvemos el objeto al origen
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, -420, 0)));
+	//Lo rotamos
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), -radians(5.0), dvec3(0, 0, 1)));
+	//Lo situamos de nuevo en orbita
+	gObjects.back()->setModelMat(translate(gObjects.back()->modelMat(), dvec3(0, 420.0, 0)));
 }
 void Scene::rota()
 {
+	gObjects.back()->setModelMat(rotate(gObjects.back()->modelMat(), radians(5.0), dvec3(0, 1, 0)));
 }
 //-------------------------------------------------------------------------
 void Scene::setID(int id) {

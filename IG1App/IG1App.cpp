@@ -219,10 +219,12 @@ void IG1App::key(unsigned char key, int x, int y)
 		//mScene->update();
 		break;
 	case 'y':
-		mScene->orbita();
+		if(mScene->mId == 5)
+			mScene->orbita();
 		break;
 	case 'b':
-		mScene->rota();
+		if (mScene->mId == 5)
+			mScene->rota();
 		break;
 	case '0':
 		mScene->changeScene(0);
