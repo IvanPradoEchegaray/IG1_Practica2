@@ -13,6 +13,7 @@ void Scene::init()
 	// allocate memory and load resources
 
 	// Lights
+
 	// Textures
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 	if (mId == 0) {
