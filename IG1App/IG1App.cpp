@@ -211,6 +211,12 @@ void IG1App::key(unsigned char key, int x, int y)
 		toggleAnimation = !toggleAnimation; // activar/desactivar la animacion con la tecla U		
 		//mScene->update();
 		break;
+	case 'y':
+		mScene->orbita();
+		break;
+	case 'b':
+		mScene->rota();
+		break;
 	case '0':
 		mScene->changeScene(0);
 		break;

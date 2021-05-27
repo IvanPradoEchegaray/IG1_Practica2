@@ -182,6 +182,12 @@ void Scene::sceneDirLight(Camera const& cam) const {
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, value_ptr(diffuse)); 
 	glLightfv(GL_LIGHT0, GL_SPECULAR, value_ptr(specular)); 
 }
+void Scene::orbita()
+{
+}
+void Scene::rota()
+{
+}
 //-------------------------------------------------------------------------
 void Scene::setID(int id) {
 	mId = id;
